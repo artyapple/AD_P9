@@ -10,6 +10,9 @@ public interface Graph {
 	
 	public boolean isNeighbors(INode n, INode m);
 	
-	public int getCost(INode node); 
+	public int getCost(INode from, INode to); 
+	
+	public int getSize();
 
 }
+
