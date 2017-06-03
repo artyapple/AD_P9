@@ -38,6 +38,11 @@ public class AdjacencyList implements Graph {
 				if ((this.nodes.get(randomLinks) != nodes.get(i))) {
 
 					LinkNode linknode = new LinkNode(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId());
+					Iterator<ILink> iter = nodes.get(i).getLinkList().iterator();
+					while(iter.hasNext()){
+							if(iter.next().getLinkedNode()==linknode.getLinkedNode());
+					}
+					//nur wenn das obere False ergibt
 					nodes.get(i).getLinkList().add(linknode);
 				}
 
@@ -76,7 +81,7 @@ public class AdjacencyList implements Graph {
 		Iterator<ILink> iterLinkNodes = linkNodes.iterator();
 
 		while (iterLinkNodes.hasNext()) {
-			if (iterLinkNodes.next().getLinkedNode() == m) {
+			if (iterLinkNodes.next().getLinkedNode().equals(m) ) {
 				return true;
 			}
 		}
@@ -99,10 +104,19 @@ public class AdjacencyList implements Graph {
 	}
 
 	public static void main(String[] args) {
-		AdjacencyList list = new AdjacencyList(10);
+		int anzahlKnoten=10;
+		AdjacencyList list = new AdjacencyList(anzahlKnoten);
 		list.initList();
 		list.createLinks();
-		System.out.println("Ende");
+		for(int i=0;i<anzahlKnoten;i++){
+			ListNode listNode = (ListNode) list.getNode(i);
+			System.out.println("\nNode: "+ (list.getNode(i)).getNodeId());
+			List<ILink> linkNodes = listNode.getLinkList();
+			for(int j=0;j<linkNodes.size();j++){
+				System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
+			}
+		
+		}
 	}
 
 }
