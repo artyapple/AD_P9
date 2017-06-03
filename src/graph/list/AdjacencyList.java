@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
-import javax.management.Query;
 
 import graph.Graph;
 import graph.link.ILink;
@@ -37,13 +36,13 @@ public class AdjacencyList implements Graph {
 			for (int k = 0; k < connections; k++) {
 				int randomLinks = (int) (Math.random() * size);
 
-				int cost = (int) (Math.random() * 20)+2;
+				int cost = (int) (Math.random() * 20) + 2;
 
 				if ((!nodes.get(randomLinks).equals(nodes.get(i)))) {
 
 					LinkNode linknode = new LinkNode(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId());
-					Iterator<ILink> iter = nodes.get(i).getLinkList().iterator();
-					if (isNeighbors(nodes.get(i), nodes.get(randomLinks)) == false){
+				
+					if (isNeighbors(nodes.get(i), nodes.get(randomLinks)) == false) {
 						// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
 						// des i-ten Knoten existiert
 						nodes.get(i).getLinkList().add(linknode);
@@ -63,28 +62,33 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public boolean traverse(INode startNode, INode destinationNode) {
-		//boolean []visited=new boolean[size];
-		String result="";
-		ListNode []Listknode = new ListNode[this.size];
-		ListNode startListNode=(ListNode) startNode;
+		int zähler = 0;
+		String result = "";
+		ListNode startListNode = (ListNode) startNode;
 		Queue<ListNode> queue = new ArrayDeque<>();
 		queue.add(startListNode);
-		while(! queue.isEmpty()) {            							// solange queue nicht leer ist
-			  ListNode node =  (ListNode) queue.poll();                 // erstes Element von der queue nehmen
-			  if(node.equals(destinationNode)) {
-			   return true;                       						// testen, ob Ziel-Knoten gefunden
-			  }
-			  List<ILink> list = node.getLinkList();
+		startListNode.mark();
+		while (!queue.isEmpty()) { // solange queue nicht leer ist
+			ListNode node = (ListNode) queue.poll(); // erstes Element von der
+														// queue nehmen
+			if (node.equals(destinationNode)) {
+				System.out.println("Zähler: "+zähler);
+				return true; // testen, ob Ziel-Knoten gefunden
+			}
+			List<ILink> list = node.getLinkList();
 			for (int i = 0; i < list.size(); i++) {
 				if (!list.get(i).getLinkedNode().getMark()) {
 					queue.add((ListNode) list.get(i).getLinkedNode());
+					list.get(i).getLinkedNode().mark();
 					result += node.getName() + "-" + list.get(i).getLinkedNode().getName();
 
 				}
 			}
-			System.out.println(result);
-			 }
-			 return false;                        // Knoten kann nicht erreicht werden
+			zähler++;
+			
+			System.out.println(result+"||");
+		}
+		return false; // Knoten kann nicht erreicht werden
 		// TODO Auto-generated method stub
 
 	}
@@ -103,7 +107,7 @@ public class AdjacencyList implements Graph {
 
 		Iterator<ILink> iterLinkNodes = linkNodes.iterator();
 		while (iterLinkNodes.hasNext()) {
-			if (iterLinkNodes.next().getLinkedNode().equals((ListNode)m)) {
+			if (iterLinkNodes.next().getLinkedNode().equals((ListNode) m)) {
 				return true;
 			}
 		}
@@ -137,7 +141,6 @@ public class AdjacencyList implements Graph {
 		return this.nodes.get(index);
 	}
 
-
 	public static void main(String[] args) {
 		int anzahlKnoten = 10;
 		AdjacencyList list = new AdjacencyList(anzahlKnoten);
@@ -152,12 +155,12 @@ public class AdjacencyList implements Graph {
 			}
 
 		}
-		System.out.println("Node0 ist nachbar zu Node1: "+list.getNode(0).isNeighbors(list.getNode(1)));
+		System.out.println("Node0 ist nachbar zu Node1: " + list.getNode(0).isNeighbors(list.getNode(1)));
 		System.out.println("Kosten Node0 zu Node1: " + list.getCost(list.getNode(0), list.getNode(1)));
 		System.out.println("Ende");
-		
+
 		list.traverse(list.getNode(0), list.getNode(4));
-		
+
 	}
 
 }
