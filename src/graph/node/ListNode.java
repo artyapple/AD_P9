@@ -44,10 +44,6 @@ public class ListNode implements INode {
 		return id;		
 	}
 	
-	private List<ILink> createLinks(){
-		
-		return null;
-	}
 	
 	public List<ILink>  getLinkList(){
 		return this.links;
@@ -66,23 +62,24 @@ public class ListNode implements INode {
 		return false;
 	}
 
-	@Override
+	public boolean getMark() {
+		// TODO Auto-generated method stub
+		return isVisited;
+	}
+	
+	
 	public void mark() {
 		this.isVisited=true;
 		
 	}
 
-	@Override
+
 	public void unmark() {
 		this.isVisited=false;
 		
 	}
 
-	@Override
-	public boolean getMark() {
-		// TODO Auto-generated method stub
-		return isVisited;
-	}
+
 	
 
 }

@@ -59,7 +59,9 @@ public class AdjacencyList implements Graph {
 	public void add(ListNode node) {
 		nodes.add(node);
 	}
-
+/**
+ * Breitensuche
+ */
 	@Override
 	public boolean traverse(INode startNode, INode destinationNode) {
 		int zähler = 0;
@@ -77,9 +79,9 @@ public class AdjacencyList implements Graph {
 			}
 			List<ILink> list = node.getLinkList();
 			for (int i = 0; i < list.size(); i++) {
-				if (!list.get(i).getLinkedNode().getMark()) {
+				if (!((ListNode) list.get(i).getLinkedNode()).getMark()) {
 					queue.add((ListNode) list.get(i).getLinkedNode());
-					list.get(i).getLinkedNode().mark();
+					((ListNode) list.get(i).getLinkedNode()).mark();
 					result += node.getName() + "-" + list.get(i).getLinkedNode().getName();
 
 				}
@@ -89,7 +91,6 @@ public class AdjacencyList implements Graph {
 			System.out.println(result+"||");
 		}
 		return false; // Knoten kann nicht erreicht werden
-		// TODO Auto-generated method stub
 
 	}
 
@@ -155,11 +156,11 @@ public class AdjacencyList implements Graph {
 			}
 
 		}
-		System.out.println("Node0 ist nachbar zu Node1: " + list.getNode(0).isNeighbors(list.getNode(1)));
+		System.out.println("Node0 ist Nachbar zu Node1: " + list.getNode(0).isNeighbors(list.getNode(1)));
 		System.out.println("Kosten Node0 zu Node1: " + list.getCost(list.getNode(0), list.getNode(1)));
 		System.out.println("Ende");
 
-		list.traverse(list.getNode(0), list.getNode(4));
+		list.traverse(list.getNode(0), list.getNode(1));
 
 	}
 
