@@ -5,6 +5,7 @@ import graph.link.LinkNode;
 
 import java.util.UUID;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListNode implements INode {
@@ -12,12 +13,14 @@ public class ListNode implements INode {
 	private String name;
 	private UUID id;
 	private List<ILink> links;
+	private boolean isVisited;
 	
 	
 	public ListNode(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID();
 		this.links = new ArrayList<>();
+		this.isVisited=false;
 	}
 	
 	public ListNode(String name, String links) {
@@ -52,8 +55,34 @@ public class ListNode implements INode {
 
 	@Override
 	public boolean isNeighbors(INode otherNode) {
-		// TODO Auto-generated method stub
+		
+		List<ILink> linkNodes = ((ListNode) otherNode).getLinkList();
+		Iterator<ILink> iterLinkNodes = linkNodes.iterator();
+		while (iterLinkNodes.hasNext()){
+			if(iterLinkNodes.next().getLinkedNode().equals(this)){
+				return true;
+			}
+		}
 		return false;
 	}
+
+	@Override
+	public void mark() {
+		this.isVisited=true;
+		
+	}
+
+	@Override
+	public void unmark() {
+		this.isVisited=false;
+		
+	}
+
+	@Override
+	public boolean getMark() {
+		// TODO Auto-generated method stub
+		return isVisited;
+	}
+	
 
 }

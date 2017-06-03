@@ -4,7 +4,7 @@ import graph.node.INode;
 
 public interface Graph {
 	
-	public void traverse();
+	public boolean traverse(INode startNode, INode destinationNode);
 	
 	public boolean isConnected();
 	

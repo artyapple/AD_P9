@@ -9,4 +9,10 @@ public interface INode {
 	public UUID getNodeId();
 	
 	public boolean isNeighbors(INode otherNode);
+	
+	public void mark();
+	
+	public void unmark();
+	
+	public boolean getMark();
 }
