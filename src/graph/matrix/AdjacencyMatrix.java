@@ -1,8 +1,10 @@
 package graph.matrix;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+
 
 import graph.Graph;
 import graph.node.INode;
@@ -21,6 +23,7 @@ public class AdjacencyMatrix implements Graph {
 	 * @param size
 	 */
 	public AdjacencyMatrix(int size) {
+		this.nodeArray = new ArrayList<INode>();
 		this.costs = new int[size][size];
 		this.size = size;
 		for (int i = 0; i < size; i++) {
@@ -28,6 +31,29 @@ public class AdjacencyMatrix implements Graph {
 				costs[i][j] = NOTNEIGHBOURS;
 			}
 		}
+	}
+
+	public void initList() {
+		for (int i = 0; i < size; i++) {
+			add(new MatrixNode("Node" + i));
+		}
+	}
+
+	public void createLinks() {
+		int anzahlEdges =5;
+		for (int i = 0; i < size; i++) {
+			INode from = nodeArray.get(i);
+			for(int j=0;j<anzahlEdges;j++){
+			INode to = nodeArray.get((int) (Math.random() * size));
+			if (!from.equals(to)) {
+				addEdge(from, to);
+			}
+			}
+		}
+	}
+
+	public List<INode> getList() {
+		return this.nodeArray;
 	}
 
 	public void add(INode node) {
@@ -58,20 +84,16 @@ public class AdjacencyMatrix implements Graph {
 	}
 
 	public int getNodeIndex(INode node) {
-		int index = -1;
-		int i = 0;
-		while (index < 0 && i < nodeArray.size()) {
-			if (nodeArray.get(i).equals((node))) {
-				index = i;
-			}
-			i++;
-		}
-		return index;
+		
+		return nodeArray.indexOf(node);
 	}
 
+
 	@Override
-	public boolean isConnected() {
-		// TODO
+	public boolean isConnected(INode n, INode m) {
+		if(costs[getNodeIndex(n)][getNodeIndex(m)] > 0){
+			return true;
+		}
 		return false;
 	}
 
@@ -92,48 +114,74 @@ public class AdjacencyMatrix implements Graph {
 
 	@Override
 	public boolean traverse(INode startNode, INode destinationNode) {
-		int zähler = 0;
-		String result = "";
-		MatrixNode startListNode = (MatrixNode) startNode;
-		Queue<MatrixNode> queue = new ArrayDeque<>();
-		queue.add(startListNode);
-		startListNode.mark();
-		while (!queue.isEmpty()) { // solange queue nicht leer ist
-			MatrixNode node = (MatrixNode) queue.poll(); // erstes Element von
-															// der
-															// queue nehmen
-			if (node.equals(destinationNode)) {
-				System.out.println("Zähler: " + zähler);
-				return true; // testen, ob Ziel-Knoten gefunden
-			}
-			int numberEgdes = getNumberEdges(node);
-			for (int i = 0; i < size; i++) {
-				if (costs[getNodeIndex(node)][i] > 0) {
-
+		// Sind die Knoten verbunden?
+		if (isNeighbors(startNode, destinationNode) == true) {
+			int zähler = 0;
+			String result = "";
+			MatrixNode startListNode = (MatrixNode) startNode;
+			Queue<MatrixNode> queue = new ArrayDeque<>();
+			queue.add(startListNode);
+			startListNode.mark();
+			while (!queue.isEmpty()) { // solange queue nicht leer ist
+				// erstes Element von der queue nehmen
+				MatrixNode node = (MatrixNode) queue.poll();
+				if (node.equals(destinationNode)) {
+					System.out.println("Zähler: " + zähler);
+					return true; // testen, ob Ziel-Knoten gefunden
 				}
-				if (!((MatrixNode) nodeArray.get(i)).getMark()) {
-					queue.add((MatrixNode) nodeArray.get(i));
-					((MatrixNode) nodeArray.get(i)).mark();
-					result += node.getName() + "-" + nodeArray.get(i).getName();
-
+				for (int i = 0; i < size; i++) {
+					if(isConnected(node, nodeArray.get(i))){
+						if (!((MatrixNode) nodeArray.get(i)).getMark()) {
+							queue.add((MatrixNode) nodeArray.get(i));
+							((MatrixNode) nodeArray.get(i)).mark();
+							result += node.getName() + "-" + nodeArray.get(i).getName();
+						}
+					}
 				}
+				zähler++;
+				System.out.println(result + "||");
 			}
-			zähler++;
-
-			System.out.println(result + "||");
 		}
 		return false; // Knoten kann nicht erreicht werden
-
 	}
 
 	public int getNumberEdges(INode node) {
 		int numberEdges = 0;
 		for (int i = 0; i < size; i++) {
-			if (costs[getNodeIndex(node)][i] > 0) {
+			if (isConnected(node, nodeArray.get(i))) {
 				numberEdges++;
 			}
 		}
 		return numberEdges;
+	}
+
+	public static void main(String[] args) {
+		int anzahlKnoten = 10;
+		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
+		matrix.initList();
+		matrix.createLinks();
+		for (int i = 0; i < anzahlKnoten; i++) {
+			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
+			System.out.println("\nNode: " + nodeFrom.getNodeId());
+
+			for (int j = 0; j < anzahlKnoten; j++) {
+				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
+				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
+					System.out.println(nodeTo.getNodeId());
+				}
+			}
+
+		}
+		System.out.println(
+				"Node0 ist Nachbar zu Node1: " + matrix.isNeighbors(matrix.getList().get(0), matrix.getList().get(1)));
+		System.out
+				.println("Kosten Node0 zu Node1: " + matrix.getCost(matrix.getList().get(0), matrix.getList().get(1)));
+		System.out.println("Ende");
+
+		if ((matrix.traverse(matrix.getList().get(0), matrix.getList().get(1))) == false) {
+			System.out.println("Die Bedingungen eines Graphen wurden nicht erfüllt");
+		}
+
 	}
 
 }

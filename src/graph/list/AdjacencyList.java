@@ -95,7 +95,7 @@ public class AdjacencyList implements Graph {
 	}
 
 	@Override
-	public boolean isConnected() {
+	public boolean isConnected(INode n, INode m) {
 		return false;
 
 	}
