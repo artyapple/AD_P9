@@ -32,7 +32,6 @@ public class AdjacencyMatrix implements Graph {
 			}
 		}
 	}
-
 	public void initList() {
 		for (int i = 0; i < size; i++) {
 			add(new MatrixNode("Node" + i));
@@ -46,7 +45,8 @@ public class AdjacencyMatrix implements Graph {
 			for(int j=0;j<anzahlEdges;j++){
 			INode to = nodeArray.get((int) (Math.random() * size));
 			if (!from.equals(to)) {
-				addEdge(from, to);
+				int cost = (int) (Math.random() * 20) + 1;
+				addEdge(from, to,cost);
 			}
 			}
 		}
@@ -60,11 +60,10 @@ public class AdjacencyMatrix implements Graph {
 		nodeArray.add(node);
 	}
 
-	public boolean addEdge(INode from, INode to) {
+	public boolean addEdge(INode from, INode to, int cost) {
 		int i = getNodeIndex(from);
 		int j = getNodeIndex(to);
 		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
-			int cost = (int) (Math.random() * 20) + 1;
 			costs[i][j] = cost;
 			costs[j][i] = cost;
 			return true;
@@ -182,6 +181,10 @@ public class AdjacencyMatrix implements Graph {
 			System.out.println("Die Bedingungen eines Graphen wurden nicht erfüllt");
 		}
 
+	}
+	@Override
+	public List<INode> getINodes() {
+		return this.nodeArray;
 	}
 
 }

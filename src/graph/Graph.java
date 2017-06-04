@@ -1,8 +1,12 @@
 package graph;
 
+import java.util.List;
+
 import graph.node.INode;
 
 public interface Graph {
+	
+	public List<INode> getINodes();
 	
 	public boolean traverse(INode startNode, INode destinationNode);
 	
