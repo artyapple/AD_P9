@@ -84,8 +84,9 @@ public class DijkstraAlgorithm {
     private int getDistance(INode node, INode target) {
     	if(node instanceof ListNode){
     		for (IEdge edge : edges) {
-                if (edge.getOwnerNode().equals( node)
-                        && edge.getLinkedNode().equals(target)) {
+                if ((edge.getOwnerNode().equals( node)
+                        && edge.getLinkedNode().equals(target))||(edge.getLinkedNode().equals( node)
+                                && edge.getOwnerNode().equals(target))) {
                     return edge.getCost();
                 }
             }
@@ -109,6 +110,9 @@ public class DijkstraAlgorithm {
     	            if (edge.getOwnerNode().equals(node)
     	                    && !isSettled((INode) edge.getLinkedNode())) {
     	                neighbors.add((INode) edge.getLinkedNode());
+    	            }  if (edge.getLinkedNode().equals(node)
+    	                    && !isSettled((INode) edge.getOwnerNode())) {
+    	                neighbors.add((INode) edge.getOwnerNode());
     	            }
     	        }
     	        return neighbors;
@@ -164,22 +168,22 @@ public class DijkstraAlgorithm {
         return path;
 }
     public static void main(String[] args) {
-		int anzahlKnoten = 10;
-		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
-		matrix.initList();
-		matrix.createLinks();
-		for (int i = 0; i < anzahlKnoten; i++) {
-			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
-			//System.out.println("\nNode: " + nodeFrom.getNodeId());
-
-			for (int j = 0; j < anzahlKnoten; j++) {
-				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
-				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
-					//System.out.println(nodeTo.getNodeId());
-				}
-			}
-
-		}
+		int anzahlKnoten = 1000;
+//		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
+//		matrix.initList();
+//		matrix.createLinks();
+//		for (int i = 0; i < anzahlKnoten; i++) {
+//			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
+//			//System.out.println("\nNode: " + nodeFrom.getNodeId());
+//
+//			for (int j = 0; j < anzahlKnoten; j++) {
+//				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
+//				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
+//					//System.out.println(nodeTo.getNodeId());
+//				}
+//			}
+//
+//		}
 		AdjacencyList list = new AdjacencyList(anzahlKnoten);
 		list.initList();
 		list.createEdges();
@@ -192,9 +196,38 @@ public class DijkstraAlgorithm {
 			}
 
 		}
+//    	AdjacencyList graphList =  new AdjacencyList();
+//    	ListNode node0 = new ListNode("node0");
+//    	ListNode node1 = new ListNode("node1");
+//    	ListNode node2 = new ListNode("node2");
+//    	ListNode node3 = new ListNode("node3");
+//    	ListNode node4 = new ListNode("node4");
+//    	
+//    	Edge edge0= new Edge(node1, 10, node0);
+//    	Edge edge1= new Edge(node4, 4, node0);
+//    	Edge edge2= new Edge(node3, 1, node0);
+//    	Edge edge3= new Edge(node2, 5, node0);
+//    	Edge edge4= new Edge(node3, 3, node2);
+//    	Edge edge5= new Edge(node4, 7, node3);
+//    	Edge edge6= new Edge(node4, 2, node1);
+//    	
+//    	graphList.addNode(node0);
+//    	graphList.addNode(node1);
+//    	graphList.addNode(node2);
+//    	graphList.addNode(node3);
+//    	graphList.addNode(node4);
+//    	
+//    	graphList.addEdge(edge0);
+//    	graphList.addEdge(edge1);
+//    	graphList.addEdge(edge2);
+//    	graphList.addEdge(edge3);
+//    	graphList.addEdge(edge4);
+//    	graphList.addEdge(edge5);
+//    	graphList.addEdge(edge6);
+    	
 		DijkstraAlgorithm algo= new DijkstraAlgorithm(list);
-		algo.execute(list.getINodes().get(0));
-		LinkedList<INode> path = algo.getPath(list.getINodes().get(9));
+		algo.execute(list.getINodes().get(1));
+		LinkedList<INode> path = algo.getPath(list.getINodes().get(2));
 
         //assertNotNull(path);
         //assertTrue(path.size() > 0);

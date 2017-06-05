@@ -9,30 +9,28 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ListNode implements INode {
-	
+
 	private String name;
 	private UUID id;
 	private List<IEdge> edges;
 	private boolean isVisited;
-	
-	
+
 	public ListNode(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID();
 		this.edges = new ArrayList<>();
-		this.isVisited=false;
+		this.isVisited = false;
 	}
-	
+
 	public ListNode(String name, String links) {
 		this.name = name;
-		this.id = UUID.randomUUID(); 
+		this.id = UUID.randomUUID();
 	}
-	
-	public void setLink(INode node, int cost){
-		IEdge edge = new Edge(node, cost, id,this);
+
+	public void setLink(INode node, int cost) {
+		IEdge edge = new Edge(node, cost, this);
 		edges.add(edge);
 	}
-	
 
 	@Override
 	public String getName() {
@@ -41,20 +39,20 @@ public class ListNode implements INode {
 
 	@Override
 	public UUID getNodeId() {
-		return id;		
+		return id;
 	}
-	
-	public List<IEdge> getEdges(){
+
+	public List<IEdge> getEdges() {
 		return this.edges;
 	}
 
 	@Override
 	public boolean isNeighbors(INode otherNode) {
-		
+
 		List<IEdge> linkNodes = ((ListNode) otherNode).getEdges();
 		Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
-		while (iterLinkNodes.hasNext()){
-			if(iterLinkNodes.next().getLinkedNode().equals(this)){
+		while (iterLinkNodes.hasNext()) {
+			if (iterLinkNodes.next().getLinkedNode().equals(this)) {
 				return true;
 			}
 		}
@@ -65,20 +63,15 @@ public class ListNode implements INode {
 		// TODO Auto-generated method stub
 		return isVisited;
 	}
-	
-	
-	public void mark() {
-		this.isVisited=true;
-		
-	}
 
+	public void mark() {
+		this.isVisited = true;
+
+	}
 
 	public void unmark() {
-		this.isVisited=false;
-		
+		this.isVisited = false;
+
 	}
-
-
-	
 
 }

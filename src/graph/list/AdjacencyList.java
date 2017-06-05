@@ -15,48 +15,34 @@ import graph.node.ListNode;
 public class AdjacencyList implements Graph {
 
 	private List<INode> nodes;
+	private List<IEdge> edges;
 	private int size;
 
 	public AdjacencyList(int numberNodes) {
 		this.size = numberNodes;
 		this.nodes = new ArrayList<INode>();
+		this.edges = new ArrayList<IEdge>();
 
 	}
 
-	public void initList() {
-		for (int i = 0; i < size; i++) {
-			add(new ListNode("Node" + i));
-		}
+	public AdjacencyList() {
+		this.nodes = new ArrayList<INode>();
+		this.edges = new ArrayList<IEdge>();
+
 	}
 
-	public void createEdges() {
-		for (int i = 0; i < size; i++) {
-			int connections = (int) (Math.random() * 10);
-			for (int k = 0; k < connections; k++) {
-				int randomLinks = (int) (Math.random() * size);
-
-				int cost = (int) (Math.random() * 20) + 2;
-
-				if ((!nodes.get(randomLinks).equals(nodes.get(i)))) {
-
-					Edge edge = new Edge(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId(), nodes.get(i));
-
-					if (isNeighbors(nodes.get(i), nodes.get(randomLinks)) == false) {
-						// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
-						// des i-ten Knoten existiert
-						((ListNode) nodes.get(i)).getEdges().add(edge);
-					}
-					// Check if Neighbor already exists in Linked Node
-					if (isNeighbors(nodes.get(randomLinks), nodes.get(i)) == false) {
-						((ListNode) nodes.get(randomLinks)).setLink(nodes.get(i), cost);
-					}
-				}
-			}
-		}
+	@Override
+	public void addNode(INode node) {
+		this.nodes.add(node);
 	}
 
-	public void add(ListNode node) {
-		nodes.add(node);
+	@Override
+	public boolean addEdge(IEdge edge) {
+		this.edges.add(edge);
+		int i = nodes.indexOf(edge.getOwnerNode());
+		int j = nodes.indexOf(edge.getLinkedNode());
+		((ListNode) nodes.get(i)).setLink(nodes.get(j), edge.getCost());
+		return true;
 	}
 
 	@Override
@@ -64,44 +50,17 @@ public class AdjacencyList implements Graph {
 		return this.nodes;
 	}
 
+	@Override
+	public INode getINode(int index) {
+		return nodes.get(index);
+	}
+
 	/**
 	 * Return alle Edges of the Graph
 	 */
 	@Override
 	public List<IEdge> getIEdges() {
-		List<IEdge> listEdges = new ArrayList<IEdge>();
-		for (int i = 0; i < nodes.size(); i++) {
-			for (int j = 0; j < nodes.size(); j++) {
-				// Node1 und Node2 sind Nachbarn
-				if (nodes.get(i).isNeighbors(nodes.get(j))) {
-					// Edges von nodes(i) erstellen
-					List<IEdge> listEdgesI = new ArrayList<IEdge>();
-					listEdgesI = ((ListNode) nodes.get(i)).getEdges();
-					;
-					int index = 0;
-					// Suche nach der Edge in der Liste des Nodes(i)
-					while (!listEdgesI.get(index).getLinkedNode().equals(nodes.get(j))) {
-						index++;
-					}
-					// Check if Edge exists already
-					Iterator<IEdge> iterListEdges = listEdges.iterator();
-					boolean edgeExists = false;
-					while (iterListEdges.hasNext()) {
-						IEdge edge = (IEdge) iterListEdges.next();
-
-						if (edge.getLinkedNode().equals(listEdgesI.get(index).getOwnerNode())) {
-							edgeExists = true;
-						}
-					}
-					if (edgeExists == false) {
-
-						listEdges.add(listEdgesI.get(index));
-					}
-
-				}
-			}
-		}
-		return listEdges;
+		return this.edges;
 	}
 
 	/**
@@ -180,11 +139,46 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public int getSize() {
-		return size;
+		return nodes.size();
 	}
 
 	public INode getNode(int index) {
 		return this.nodes.get(index);
+	}
+
+	public void initList() {
+		for (int i = 0; i < size; i++) {
+			addNode(new ListNode("Node" + i));
+		}
+	}
+
+	public void createEdges() {
+		for (int i = 0; i < size; i++) {
+			// Zufällige Anzahl von Verbindungen je Knoten
+			int connections = (int) (Math.random() * 10);
+			for (int k = 0; k < connections; k++) {
+				int randomNode = (int) (Math.random() * nodes.size());
+				// Kosten erstellen
+				int cost = (int) (Math.random() * 20) + 1;
+
+				if ((!nodes.get(randomNode).equals(nodes.get(i)))) {
+
+					Edge edge = new Edge(this.nodes.get(randomNode), cost, nodes.get(i));
+
+					if (isNeighbors(nodes.get(i), nodes.get(randomNode)) == false) {
+						// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
+						// des i-ten Knoten existiert
+						((ListNode) nodes.get(i)).getEdges().add(edge);
+						edges.add(edge);
+					}
+					// Check if Neighbor already exists in Linked Node
+					if (isNeighbors(nodes.get(randomNode), nodes.get(i)) == false) {
+						((ListNode) nodes.get(randomNode)).setLink(nodes.get(i), cost);
+						edges.add(edge);
+					}
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {

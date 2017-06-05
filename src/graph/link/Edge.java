@@ -16,10 +16,10 @@ public class Edge implements IEdge {
 	private INode linkedNode;
 	private INode ownerNode;
 
-	public Edge( INode linkedNode,int cost, UUID ownerId,INode ownerNode) {
+	public Edge( INode linkedNode,int cost, INode ownerNode) {
 		this.linkedNode = linkedNode;
 		this.cost = cost;
-		this.ownerId = ownerId;
+		this.ownerId = ownerNode.getNodeId();
 		this.ownerNode=ownerNode;
 	}
 
