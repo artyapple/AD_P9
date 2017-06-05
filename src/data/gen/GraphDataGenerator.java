@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import data.DataConstants;
 import data.json.graph.LinkDataContainer;
 import data.json.graph.NodeDataContainer;
 import data.json.graph.NodeDataListWrapper;
@@ -13,11 +14,6 @@ import data.json.names.CitiData;
 import data.json.service.JSONService;
 
 public class GraphDataGenerator {
-
-	private static final String GRAPH_CONFIG = "C:\\Users\\AI\\workspace\\AD_P9\\graph_with_costs.json";
-	private static final String NAMES_LIST = "C:\\Users\\AI\\workspace\\AD_P9\\cities.json";
-	private static final int MAX_EDGES_CNT = 2;
-	private static final int MAX_COST_VALUE = 100;
 
 	private JSONService jserv = new JSONService();
 	private List<CitiData> cd;
@@ -31,7 +27,7 @@ public class GraphDataGenerator {
 		createNodes(cnt);
 		buildLinks(cnt);
 		json.setNodesDataContainers(nodes);
-		jserv.writeJsonGraph(GRAPH_CONFIG, json);
+		jserv.writeJsonGraph(DataConstants.GRAPH_CONFIG, json);
 	}
 
 	private void createNodes(int cnt) {
@@ -47,7 +43,7 @@ public class GraphDataGenerator {
 	}
 
 	private void initNames() {
-		cd = jserv.getCitiList(NAMES_LIST);
+		cd = jserv.getCitiList(DataConstants.NAMES_LIST);
 		sizeNamesList = cd.size();
 	}
 
@@ -63,12 +59,12 @@ public class GraphDataGenerator {
 		int cost;
 
 		for (NodeDataContainer cont : nodes) {
-			if(cont.getLinkedNode()==null || cont.getLinkedNode().size()==MAX_EDGES_CNT){
+			if(cont.getLinkedNode()==null || cont.getLinkedNode().size()==DataConstants.MAX_EDGES_CNT){
 				currentId = cont.getNodeId();
 				LinkDataContainer link;
 				LinkDataContainer refl;
 				
-				for (int i = 0; i < MAX_EDGES_CNT; i++) {
+				for (int i = 0; i < DataConstants.MAX_EDGES_CNT; i++) {
 					linkId = getRandomId(cnt);
 					if (isLinkIdValid(linkId, currentId)) {
 						link = new LinkDataContainer();
@@ -111,7 +107,7 @@ public class GraphDataGenerator {
 	}
 
 	private int getRandomCost() {
-		return ThreadLocalRandom.current().nextInt(1, MAX_COST_VALUE);
+		return ThreadLocalRandom.current().nextInt(1, DataConstants.MAX_COST_VALUE);
 	}
 
 	public static void main(String[] args) {
