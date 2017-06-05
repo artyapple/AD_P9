@@ -6,21 +6,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
-
 import graph.Graph;
-import graph.link.ILink;
-import graph.link.LinkNode;
+import graph.link.IEdge;
+import graph.link.Edge;
 import graph.node.INode;
 import graph.node.ListNode;
 
 public class AdjacencyList implements Graph {
 
-	private List<ListNode> nodes;
+	private List<INode> nodes;
 	private int size;
 
 	public AdjacencyList(int numberNodes) {
 		this.size = numberNodes;
-		this.nodes = new ArrayList<ListNode>();
+		this.nodes = new ArrayList<INode>();
 
 	}
 
@@ -30,7 +29,7 @@ public class AdjacencyList implements Graph {
 		}
 	}
 
-	public void createLinks() {
+	public void createEdges() {
 		for (int i = 0; i < size; i++) {
 			int connections = (int) (Math.random() * 10);
 			for (int k = 0; k < connections; k++) {
@@ -40,16 +39,16 @@ public class AdjacencyList implements Graph {
 
 				if ((!nodes.get(randomLinks).equals(nodes.get(i)))) {
 
-					LinkNode linknode = new LinkNode(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId());
-				
+					Edge edge = new Edge(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId(), nodes.get(i));
+
 					if (isNeighbors(nodes.get(i), nodes.get(randomLinks)) == false) {
 						// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
 						// des i-ten Knoten existiert
-						nodes.get(i).getLinkList().add(linknode);
+						((ListNode) nodes.get(i)).getEdges().add(edge);
 					}
 					// Check if Neighbor already exists in Linked Node
 					if (isNeighbors(nodes.get(randomLinks), nodes.get(i)) == false) {
-						nodes.get(randomLinks).setLink(nodes.get(i), cost);
+						((ListNode) nodes.get(randomLinks)).setLink(nodes.get(i), cost);
 					}
 				}
 			}
@@ -59,9 +58,55 @@ public class AdjacencyList implements Graph {
 	public void add(ListNode node) {
 		nodes.add(node);
 	}
-/**
- * Breitensuche
- */
+
+	@Override
+	public List<INode> getINodes() {
+		return this.nodes;
+	}
+
+	/**
+	 * Return alle Edges of the Graph
+	 */
+	@Override
+	public List<IEdge> getIEdges() {
+		List<IEdge> listEdges = new ArrayList<IEdge>();
+		for (int i = 0; i < nodes.size(); i++) {
+			for (int j = 0; j < nodes.size(); j++) {
+				// Node1 und Node2 sind Nachbarn
+				if (nodes.get(i).isNeighbors(nodes.get(j))) {
+					// Edges von nodes(i) erstellen
+					List<IEdge> listEdgesI = new ArrayList<IEdge>();
+					listEdgesI = ((ListNode) nodes.get(i)).getEdges();
+					;
+					int index = 0;
+					// Suche nach der Edge in der Liste des Nodes(i)
+					while (!listEdgesI.get(index).getLinkedNode().equals(nodes.get(j))) {
+						index++;
+					}
+					// Check if Edge exists already
+					Iterator<IEdge> iterListEdges = listEdges.iterator();
+					boolean edgeExists = false;
+					while (iterListEdges.hasNext()) {
+						IEdge edge = (IEdge) iterListEdges.next();
+
+						if (edge.getLinkedNode().equals(listEdgesI.get(index).getOwnerNode())) {
+							edgeExists = true;
+						}
+					}
+					if (edgeExists == false) {
+
+						listEdges.add(listEdgesI.get(index));
+					}
+
+				}
+			}
+		}
+		return listEdges;
+	}
+
+	/**
+	 * Breitensuche
+	 */
 	@Override
 	public boolean traverse(INode startNode, INode destinationNode) {
 		int zähler = 0;
@@ -74,10 +119,10 @@ public class AdjacencyList implements Graph {
 			ListNode node = (ListNode) queue.poll(); // erstes Element von der
 														// queue nehmen
 			if (node.equals(destinationNode)) {
-				System.out.println("Zähler: "+zähler);
+				System.out.println("Zähler: " + zähler);
 				return true; // testen, ob Ziel-Knoten gefunden
 			}
-			List<ILink> list = node.getLinkList();
+			List<IEdge> list = node.getEdges();
 			for (int i = 0; i < list.size(); i++) {
 				if (!((ListNode) list.get(i).getLinkedNode()).getMark()) {
 					queue.add((ListNode) list.get(i).getLinkedNode());
@@ -87,8 +132,8 @@ public class AdjacencyList implements Graph {
 				}
 			}
 			zähler++;
-			
-			System.out.println(result+"||");
+
+			System.out.println(result + "||");
 		}
 		return false; // Knoten kann nicht erreicht werden
 
@@ -104,9 +149,9 @@ public class AdjacencyList implements Graph {
 	public boolean isNeighbors(INode n, INode m) {
 
 		ListNode listNode = (ListNode) n;
-		List<ILink> linkNodes = listNode.getLinkList();
+		List<IEdge> linkNodes = listNode.getEdges();
 
-		Iterator<ILink> iterLinkNodes = linkNodes.iterator();
+		Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
 		while (iterLinkNodes.hasNext()) {
 			if (iterLinkNodes.next().getLinkedNode().equals((ListNode) m)) {
 				return true;
@@ -119,13 +164,13 @@ public class AdjacencyList implements Graph {
 	public int getCost(INode from, INode to) {
 		if (isNeighbors(from, to)) {
 			ListNode fromList = (ListNode) from;
-			List<ILink> linkNodes = fromList.getLinkList();
-			Iterator<ILink> iterLinkNodes = linkNodes.iterator();
+			List<IEdge> linkNodes = fromList.getEdges();
+			Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
 			while (iterLinkNodes.hasNext()) {
-				LinkNode linkNode = (LinkNode) iterLinkNodes.next();
-				INode node = linkNode.getLinkedNode();
+				Edge edge = (Edge) iterLinkNodes.next();
+				INode node = edge.getLinkedNode();
 				if (node.equals(to)) {
-					return linkNode.getCost();
+					return edge.getCost();
 				}
 			}
 
@@ -146,11 +191,11 @@ public class AdjacencyList implements Graph {
 		int anzahlKnoten = 10;
 		AdjacencyList list = new AdjacencyList(anzahlKnoten);
 		list.initList();
-		list.createLinks();
+		list.createEdges();
 		for (int i = 0; i < anzahlKnoten; i++) {
 			ListNode listNode = (ListNode) list.getNode(i);
 			System.out.println("\nNode: " + (list.getNode(i)).getNodeId());
-			List<ILink> linkNodes = listNode.getLinkList();
+			List<IEdge> linkNodes = listNode.getEdges();
 			for (int j = 0; j < linkNodes.size(); j++) {
 				System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
 			}

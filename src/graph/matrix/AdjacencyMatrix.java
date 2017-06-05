@@ -2,11 +2,14 @@ package graph.matrix;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
 
 import graph.Graph;
+import graph.link.Edge;
+import graph.link.IEdge;
 import graph.node.INode;
 import graph.node.MatrixNode;
 
@@ -31,6 +34,34 @@ public class AdjacencyMatrix implements Graph {
 				costs[i][j] = NOTNEIGHBOURS;
 			}
 		}
+	}
+	@Override
+	public List<INode> getINodes() {
+		return this.nodeArray;
+	}
+	@Override
+	public List<IEdge> getIEdges() {
+		List<IEdge> listEdges = new ArrayList<IEdge>();
+		for(int i=0;i<nodeArray.size();i++){
+			for(int j=0;j<nodeArray.size();j++){
+				if(isConnected(nodeArray.get(i), nodeArray.get(j))){
+					Iterator<IEdge> iterListEdges = listEdges.iterator();
+					boolean edgeExists = false;
+					while (iterListEdges.hasNext()) {
+						IEdge edge = (IEdge) iterListEdges.next();
+
+						if (edge.getLinkedNode().getNodeId().equals(nodeArray.get(i).getNodeId())) {
+							edgeExists = true;
+						}
+					}
+					if (edgeExists == false) {
+
+					Edge edge = new Edge(nodeArray.get(j), getCost(nodeArray.get(i), nodeArray.get(j)), nodeArray.get(i).getNodeId(), nodeArray.get(i));
+					listEdges.add(edge);
+				}}
+			}
+		}
+		return listEdges;
 	}
 	public void initList() {
 		for (int i = 0; i < size; i++) {
@@ -182,9 +213,6 @@ public class AdjacencyMatrix implements Graph {
 		}
 
 	}
-	@Override
-	public List<INode> getINodes() {
-		return this.nodeArray;
-	}
+
 
 }

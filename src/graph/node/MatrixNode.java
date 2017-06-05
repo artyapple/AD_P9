@@ -1,6 +1,8 @@
 package graph.node;
 
+
 import java.util.UUID;
+
 
 public class MatrixNode implements INode {
 	
@@ -14,6 +16,7 @@ public class MatrixNode implements INode {
 	private String name;
 	private UUID id;
 
+	
 	@Override
 	public String getName() {
 		return this.name;
@@ -42,6 +45,8 @@ public class MatrixNode implements INode {
 		this.isVisited=false;
 		
 	}
+
+
 
 
 }

@@ -1,6 +1,9 @@
 package graph.node;
 
+
 import java.util.UUID;
+
+
 
 public interface INode {
 	

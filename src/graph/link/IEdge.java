@@ -4,7 +4,9 @@ import java.util.UUID;
 
 import graph.node.INode;
 
-public interface ILink {
+public interface IEdge {
+	
+	public INode getOwnerNode();
 	
 	public UUID getOwnerId();
 	

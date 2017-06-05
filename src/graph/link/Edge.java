@@ -9,21 +9,29 @@ import java.util.UUID;
  *Diese Klasse representiert die Edges. Die Anzahl der Edges in der List ist die Anzahl der Edges
  *
  */
-public class LinkNode implements ILink {
+public class Edge implements IEdge {
 
 	private UUID ownerId;
 	private int cost;
 	private INode linkedNode;
+	private INode ownerNode;
 
-	public LinkNode( INode node,int cost, UUID ownerId) {
-		this.linkedNode = node;
+	public Edge( INode linkedNode,int cost, UUID ownerId,INode ownerNode) {
+		this.linkedNode = linkedNode;
 		this.cost = cost;
 		this.ownerId = ownerId;
+		this.ownerNode=ownerNode;
 	}
 
 	@Override
 	public UUID getOwnerId() {
 		return ownerId;
+	}
+	
+	@Override
+	public INode getOwnerNode() {
+		
+		return this.ownerNode;
 	}
 
 	@Override
@@ -35,14 +43,14 @@ public class LinkNode implements ILink {
 	public int getCost() {
 		return cost;
 	}
-//	public void setlinkedNode(INode node){
-//		this.linkedNode=node;
-//	}
+
 	public void setCost(int cost){
 		this.cost=cost;
 	}
 	public void setOwnerId(UUID ownerId){
 		this.ownerId=ownerId;
 	}
+
+
 
 }

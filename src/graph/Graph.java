@@ -2,11 +2,14 @@ package graph;
 
 import java.util.List;
 
+import graph.link.IEdge;
 import graph.node.INode;
 
 public interface Graph {
 	
 	public List<INode> getINodes();
+	
+	public List<IEdge> getIEdges();
 	
 	public boolean traverse(INode startNode, INode destinationNode);
 	
