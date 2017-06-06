@@ -14,11 +14,5 @@ public class JSONGraphReader {
 		json = jserv.readJsonGraph(path);
 		//TODO
 	}
-	
-	public static void main(String[] args){
-		JSONGraphReader jr = new JSONGraphReader();
-		//jr.read(DataConstants.GRAPH_CONFIG);
-		System.out.println("ready");
-	}
 
 }
