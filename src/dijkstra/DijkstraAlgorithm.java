@@ -169,33 +169,33 @@ public class DijkstraAlgorithm {
 }
     public static void main(String[] args) {
 		int anzahlKnoten = 1000;
-//		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
-//		matrix.initList();
-//		matrix.createLinks();
-//		for (int i = 0; i < anzahlKnoten; i++) {
-//			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
-//			//System.out.println("\nNode: " + nodeFrom.getNodeId());
-//
-//			for (int j = 0; j < anzahlKnoten; j++) {
-//				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
-//				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
-//					//System.out.println(nodeTo.getNodeId());
-//				}
-//			}
-//
-//		}
-		AdjacencyList list = new AdjacencyList(anzahlKnoten);
-		list.initList();
-		list.createEdges();
+		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
+		matrix.initList();
+		matrix.createLinks();
 		for (int i = 0; i < anzahlKnoten; i++) {
-			ListNode listNode = (ListNode) list.getNode(i);
-			//System.out.println("\nNode: " + (list.getNode(i)).getNodeId());
-			List<IEdge> linkNodes = listNode.getEdges();
-			for (int j = 0; j < linkNodes.size(); j++) {
-				//System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
+			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
+			//System.out.println("\nNode: " + nodeFrom.getNodeId());
+
+			for (int j = 0; j < anzahlKnoten; j++) {
+				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
+				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
+					//System.out.println(nodeTo.getNodeId());
+				}
 			}
 
 		}
+//		AdjacencyList matrix = new AdjacencyList(anzahlKnoten);
+//		matrix.initList();
+//		matrix.createEdges();
+//		for (int i = 0; i < anzahlKnoten; i++) {
+//			ListNode listNode = (ListNode) matrix.getNode(i);
+//			//System.out.println("\nNode: " + (list.getNode(i)).getNodeId());
+//			List<IEdge> linkNodes = listNode.getEdges();
+//			for (int j = 0; j < linkNodes.size(); j++) {
+//				//System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
+//			}
+//
+//		}
 //    	AdjacencyList graphList =  new AdjacencyList();
 //    	ListNode node0 = new ListNode("node0");
 //    	ListNode node1 = new ListNode("node1");
@@ -225,9 +225,9 @@ public class DijkstraAlgorithm {
 //    	graphList.addEdge(edge5);
 //    	graphList.addEdge(edge6);
     	
-		DijkstraAlgorithm algo= new DijkstraAlgorithm(list);
-		algo.execute(list.getINodes().get(1));
-		LinkedList<INode> path = algo.getPath(list.getINodes().get(2));
+		DijkstraAlgorithm algo= new DijkstraAlgorithm(matrix);
+		algo.execute(matrix.getINodes().get(1));
+		LinkedList<INode> path = algo.getPath(matrix.getINodes().get(2));
 
         //assertNotNull(path);
         //assertTrue(path.size() > 0);
