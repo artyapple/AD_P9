@@ -148,7 +148,9 @@ public class DijkstraAlgorithm {
      * NULL if no path exists
      */
     public LinkedList<INode> getPath(INode target) {
-        LinkedList<INode> path = new LinkedList<INode>();
+    	   System.out.println("get path methode");
+    	
+    	LinkedList<INode> path = new LinkedList<INode>();
         INode step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
@@ -167,8 +169,6 @@ public class DijkstraAlgorithm {
           for (INode node : path) {
               System.out.println(node.getNodeId());
           }
-  		} else {
-  			System.out.println("path null");
   		}
         
         return path;

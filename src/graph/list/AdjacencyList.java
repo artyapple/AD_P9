@@ -18,11 +18,13 @@ import graph.node.MatrixNode;
 public class AdjacencyList implements Graph {
 
 	private List<INode> nodes;
+	private List<IEdge> edges;
 	private int size;
 
 	public AdjacencyList(int numberNodes) {
 		this.size = numberNodes;
 		this.nodes = new ArrayList<INode>();
+		this.edges = new ArrayList<IEdge>();
 	}
 
 	// TODO init list or init with add
@@ -33,46 +35,51 @@ public class AdjacencyList implements Graph {
 		return this.nodes;
 	}
 
-	// TODO was macht diese methode
+	@Override
+	public List<IEdge> getIEdges() {
+		
+		return edges;
+	}
+	
 	/**
 	 * Return alle Edges of the Graph
 	 */
-	@Override
-	public List<IEdge> getIEdges() {
-		List<IEdge> listEdges = new ArrayList<IEdge>();
-		for (int i = 0; i < nodes.size(); i++) {
-			for (int j = 0; j < nodes.size(); j++) {
-				// Node1 und Node2 sind Nachbarn
-				if (nodes.get(i).isNeighbors(nodes.get(j))) {
-					// Edges von nodes(i) erstellen
-					List<IEdge> listEdgesI = new ArrayList<IEdge>();
-					listEdgesI = ((ListNode) nodes.get(i)).getEdges();
-					;
-					int index = 0;
-					// Suche nach der Edge in der Liste des Nodes(i)
-					while (!listEdgesI.get(index).getLinkedNode().equals(nodes.get(j))) {
-						index++;
-					}
-					// Check if Edge exists already
-					Iterator<IEdge> iterListEdges = listEdges.iterator();
-					boolean edgeExists = false;
-					while (iterListEdges.hasNext()) {
-						IEdge edge = (IEdge) iterListEdges.next();
-
-						if (edge.getLinkedNode().equals(listEdgesI.get(index).getOwnerNode())) {
-							edgeExists = true;
-						}
-					}
-					if (edgeExists == false) {
-
-						listEdges.add(listEdgesI.get(index));
-					}
-
-				}
-			}
-		}
-		return listEdges;
-	}
+//	@Override
+//	public List<IEdge> getIEdges() {
+//		List<IEdge> listEdges = new ArrayList<IEdge>();
+//		for (int i = 0; i < nodes.size(); i++) {
+//			for (int j = 0; j < nodes.size(); j++) {
+//				// Node1 und Node2 sind Nachbarn
+//				if (nodes.get(i).isNeighbors(nodes.get(j))) {
+//					// Edges von nodes(i) erstellen
+//					List<IEdge> listEdgesI = new ArrayList<IEdge>();
+//					listEdgesI = ((ListNode) nodes.get(i)).getEdges();
+//					;
+//					int index = 0;
+//					// Suche nach der Edge in der Liste des Nodes(i)
+//					while (!listEdgesI.get(index).getLinkedNode().equals(nodes.get(j))) {
+//						index++;
+//					}
+//					// Check if Edge exists already
+//					Iterator<IEdge> iterListEdges = listEdges.iterator();
+//					boolean edgeExists = false;
+//					while (iterListEdges.hasNext()) {
+//						IEdge edge = (IEdge) iterListEdges.next();
+//
+//						if (edge.getLinkedNode().equals(listEdgesI.get(index).getOwnerNode())) {
+//							edgeExists = true;
+//						}
+//					}
+//					if (edgeExists == false) {
+//
+//						listEdges.add(listEdgesI.get(index));
+//					}
+//
+//				}
+//			}
+//		}
+//		return listEdges;
+//	}
 
 	/**
 	 * Breitensuche
@@ -159,7 +166,8 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public void initilize(List<NodeDataContainer> list) {
-		// TODO Auto-generated method stub
+		initList(list);
+		createEdges(list);
 
 	}
 
@@ -178,7 +186,19 @@ public class AdjacencyList implements Graph {
 			for (LinkDataContainer link : links) {
 				IEdge edge = new Edge(nodes.get(link.getLinkId()), link.getCost(), currentnode.getNodeId(),
 						currentnode);
-				currentnode.getEdges().add(edge);
+				
+				if (isNeighbors(currentnode, nodes.get(link.getLinkId())) == false) {
+					// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
+					// des i-ten Knoten existiert
+					currentnode.getEdges().add(edge);
+					edges.add(edge);
+				}
+				// Check if Neighbor already exists in Linked Node
+				if (isNeighbors(nodes.get(link.getLinkId()), currentnode) == false) {
+					((ListNode)nodes.get(link.getLinkId())).setLink(currentnode, link.getCost());
+					edges.add(edge);
+				}
+				
 			}
 		}
 	}
