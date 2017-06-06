@@ -187,18 +187,11 @@ public class AdjacencyList implements Graph {
 				IEdge edge = new Edge(nodes.get(link.getLinkId()), link.getCost(), currentnode.getNodeId(),
 						currentnode);
 				
-				if (isNeighbors(currentnode, nodes.get(link.getLinkId())) == false) {
-					// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
-					// des i-ten Knoten existiert
-					currentnode.getEdges().add(edge);
-					edges.add(edge);
-				}
-				// Check if Neighbor already exists in Linked Node
-				if (isNeighbors(nodes.get(link.getLinkId()), currentnode) == false) {
-					((ListNode)nodes.get(link.getLinkId())).setLink(currentnode, link.getCost());
-					edges.add(edge);
-				}
+				currentnode.getEdges().add(edge);
 				
+				if(!edges.contains(new Edge(currentnode, link.getCost(), link.getLinkId(), nodes.get(link.getLinkId())))){
+					edges.add(edge);
+				}
 			}
 		}
 	}

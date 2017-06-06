@@ -57,14 +57,17 @@ public class GraphDataGenerator {
 		int currentId;
 		int linkId;
 		int cost;
+		int linksCount = cnt/DataConstants.MAX_EDGES_FACTOR;
 
 		for (NodeDataContainer cont : nodes) {
-			if(cont.getLinkedNode()==null || cont.getLinkedNode().size()==DataConstants.MAX_EDGES_CNT){
+			if(cont.getLinkedNode()==null || cont.getLinkedNode().size()==linksCount){
 				currentId = cont.getNodeId();
 				LinkDataContainer link;
 				LinkDataContainer refl;
 				
-				for (int i = 0; i < DataConstants.MAX_EDGES_CNT; i++) {
+				//int linksCount = cnt/DataConstants.MAX_EDGES_CNT;
+				
+				for (int i = 0; i < linksCount; i++) {
 					linkId = getRandomId(cnt);
 					if (isLinkIdValid(linkId, currentId)) {
 						link = new LinkDataContainer();

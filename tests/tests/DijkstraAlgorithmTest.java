@@ -9,7 +9,6 @@ import data.reader.JSONGraphReader;
 import dijkstra.DijkstraAlgorithm;
 import graph.Graph;
 import graph.list.AdjacencyList;
-import graph.matrix.AdjacencyMatrix;
 import graph.node.INode;
 
 public class DijkstraAlgorithmTest {
