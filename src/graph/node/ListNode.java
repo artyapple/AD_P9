@@ -11,22 +11,22 @@ import java.util.List;
 public class ListNode implements INode {
 	
 	private String name;
-	private UUID id;
+	private int id;
 	private List<IEdge> edges;
 	private boolean isVisited;
 	
 	
-	public ListNode(String name) {
+	public ListNode(String name, int id) {
 		this.name = name;
-		this.id = UUID.randomUUID();
+		this.id = id;
 		this.edges = new ArrayList<>();
 		this.isVisited=false;
 	}
 	
-	public ListNode(String name, String links) {
-		this.name = name;
-		this.id = UUID.randomUUID(); 
-	}
+//	public ListNode(String name, String links) {
+//		this.name = name;
+//		this.id = id; 
+//	}
 	
 	public void setLink(INode node, int cost){
 		IEdge edge = new Edge(node, cost, id,this);
@@ -40,7 +40,7 @@ public class ListNode implements INode {
 	}
 
 	@Override
-	public UUID getNodeId() {
+	public int getNodeId() {
 		return id;		
 	}
 	
@@ -62,23 +62,14 @@ public class ListNode implements INode {
 	}
 
 	public boolean getMark() {
-		// TODO Auto-generated method stub
 		return isVisited;
 	}
-	
-	
+		
 	public void mark() {
 		this.isVisited=true;
-		
 	}
-
 
 	public void unmark() {
 		this.isVisited=false;
-		
 	}
-
-
-	
-
 }

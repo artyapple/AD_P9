@@ -8,7 +8,7 @@ public interface IEdge {
 	
 	public INode getOwnerNode();
 	
-	public UUID getOwnerId();
+	public int getOwnerId();
 	
 	public INode getLinkedNode();
 	

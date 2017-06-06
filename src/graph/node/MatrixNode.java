@@ -6,15 +6,15 @@ import java.util.UUID;
 
 public class MatrixNode implements INode {
 	
-	public MatrixNode(String name) {
+	public MatrixNode(String name, int id) {
 		this.name = name;
-		this.id = UUID.randomUUID();
+		this.id = id;
 		this.isVisited=false;
 		
 	}
 	private boolean isVisited;
 	private String name;
-	private UUID id;
+	private int id;
 
 	
 	@Override
@@ -23,13 +23,13 @@ public class MatrixNode implements INode {
 	}
 
 	@Override
-	public UUID getNodeId() {
+	public int getNodeId() {
 		return this.id;
 	}
 
+	//TODO methode loschen?
 	@Override
 	public boolean isNeighbors(INode otherNode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	public boolean getMark() {
@@ -43,7 +43,6 @@ public class MatrixNode implements INode {
 
 	public void unmark() {
 		this.isVisited=false;
-		
 	}
 
 

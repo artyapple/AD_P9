@@ -20,41 +20,10 @@ public class AdjacencyList implements Graph {
 	public AdjacencyList(int numberNodes) {
 		this.size = numberNodes;
 		this.nodes = new ArrayList<INode>();
-
 	}
 
-	public void initList() {
-		for (int i = 0; i < size; i++) {
-			add(new ListNode("Node" + i));
-		}
-	}
-
-	public void createEdges() {
-		for (int i = 0; i < size; i++) {
-			int connections = (int) (Math.random() * 10);
-			for (int k = 0; k < connections; k++) {
-				int randomLinks = (int) (Math.random() * size);
-
-				int cost = (int) (Math.random() * 20) + 2;
-
-				if ((!nodes.get(randomLinks).equals(nodes.get(i)))) {
-
-					Edge edge = new Edge(this.nodes.get(randomLinks), cost, nodes.get(i).getNodeId(), nodes.get(i));
-
-					if (isNeighbors(nodes.get(i), nodes.get(randomLinks)) == false) {
-						// wenn der Linkknoten(EDGE) noch nicht in der Linkliste
-						// des i-ten Knoten existiert
-						((ListNode) nodes.get(i)).getEdges().add(edge);
-					}
-					// Check if Neighbor already exists in Linked Node
-					if (isNeighbors(nodes.get(randomLinks), nodes.get(i)) == false) {
-						((ListNode) nodes.get(randomLinks)).setLink(nodes.get(i), cost);
-					}
-				}
-			}
-		}
-	}
-
+	//TODO init list or init with add
+	//was macht diese methode
 	public void add(ListNode node) {
 		nodes.add(node);
 	}
@@ -64,6 +33,8 @@ public class AdjacencyList implements Graph {
 		return this.nodes;
 	}
 
+	
+	//TODO was macht diese methode
 	/**
 	 * Return alle Edges of the Graph
 	 */
@@ -173,7 +144,6 @@ public class AdjacencyList implements Graph {
 					return edge.getCost();
 				}
 			}
-
 		}
 		return 0;
 	}
@@ -183,30 +153,9 @@ public class AdjacencyList implements Graph {
 		return size;
 	}
 
+	//TODO was macht diese methode
 	public INode getNode(int index) {
 		return this.nodes.get(index);
-	}
-
-	public static void main(String[] args) {
-		int anzahlKnoten = 10;
-		AdjacencyList list = new AdjacencyList(anzahlKnoten);
-		list.initList();
-		list.createEdges();
-		for (int i = 0; i < anzahlKnoten; i++) {
-			ListNode listNode = (ListNode) list.getNode(i);
-			System.out.println("\nNode: " + (list.getNode(i)).getNodeId());
-			List<IEdge> linkNodes = listNode.getEdges();
-			for (int j = 0; j < linkNodes.size(); j++) {
-				System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
-			}
-
-		}
-		System.out.println("Node0 ist Nachbar zu Node1: " + list.getNode(0).isNeighbors(list.getNode(1)));
-		System.out.println("Kosten Node0 zu Node1: " + list.getCost(list.getNode(0), list.getNode(1)));
-		System.out.println("Ende");
-
-		list.traverse(list.getNode(0), list.getNode(1));
-
 	}
 
 }

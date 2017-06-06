@@ -163,6 +163,10 @@ public class DijkstraAlgorithm {
         Collections.reverse(path);
         return path;
 }
+    
+    
+    
+    // was macht diese methode ?!?!?!
     public static void main(String[] args) {
 		int anzahlKnoten = 10;
 		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);

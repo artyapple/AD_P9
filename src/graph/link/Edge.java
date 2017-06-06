@@ -11,26 +11,25 @@ import java.util.UUID;
  */
 public class Edge implements IEdge {
 
-	private UUID ownerId;
+	private int ownerId;
 	private int cost;
 	private INode linkedNode;
 	private INode ownerNode;
 
-	public Edge( INode linkedNode,int cost, UUID ownerId,INode ownerNode) {
+	public Edge(INode linkedNode, int cost, int ownerId, INode ownerNode) {
 		this.linkedNode = linkedNode;
 		this.cost = cost;
 		this.ownerId = ownerId;
-		this.ownerNode=ownerNode;
+		this.ownerNode = ownerNode;
 	}
 
 	@Override
-	public UUID getOwnerId() {
+	public int getOwnerId() {
 		return ownerId;
 	}
 	
 	@Override
-	public INode getOwnerNode() {
-		
+	public INode getOwnerNode() {	
 		return this.ownerNode;
 	}
 
@@ -47,10 +46,9 @@ public class Edge implements IEdge {
 	public void setCost(int cost){
 		this.cost=cost;
 	}
-	public void setOwnerId(UUID ownerId){
+	
+	public void setOwnerId(int ownerId){
 		this.ownerId=ownerId;
 	}
-
-
 
 }

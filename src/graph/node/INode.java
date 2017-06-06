@@ -9,7 +9,7 @@ public interface INode {
 	
 	public String getName();
 	
-	public UUID getNodeId();
+	public int getNodeId();
 	
 	public boolean isNeighbors(INode otherNode);
 	

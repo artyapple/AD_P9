@@ -35,10 +35,13 @@ public class AdjacencyMatrix implements Graph {
 			}
 		}
 	}
+	
 	@Override
 	public List<INode> getINodes() {
 		return this.nodeArray;
 	}
+	
+	//WAS macht diese methode
 	@Override
 	public List<IEdge> getIEdges() {
 		List<IEdge> listEdges = new ArrayList<IEdge>();
@@ -50,7 +53,7 @@ public class AdjacencyMatrix implements Graph {
 					while (iterListEdges.hasNext()) {
 						IEdge edge = (IEdge) iterListEdges.next();
 
-						if (edge.getLinkedNode().getNodeId().equals(nodeArray.get(i).getNodeId())) {
+						if (edge.getLinkedNode().getNodeId()==nodeArray.get(i).getNodeId()) {
 							edgeExists = true;
 						}
 					}
@@ -63,34 +66,18 @@ public class AdjacencyMatrix implements Graph {
 		}
 		return listEdges;
 	}
-	public void initList() {
-		for (int i = 0; i < size; i++) {
-			add(new MatrixNode("Node" + i));
-		}
-	}
 
-	public void createLinks() {
-		int anzahlEdges =5;
-		for (int i = 0; i < size; i++) {
-			INode from = nodeArray.get(i);
-			for(int j=0;j<anzahlEdges;j++){
-			INode to = nodeArray.get((int) (Math.random() * size));
-			if (!from.equals(to)) {
-				int cost = (int) (Math.random() * 20) + 1;
-				addEdge(from, to,cost);
-			}
-			}
-		}
-	}
-
+	//TODO was macht diese methode
 	public List<INode> getList() {
 		return this.nodeArray;
 	}
 
+	//TODO was macht diese methode
 	public void add(INode node) {
 		nodeArray.add(node);
 	}
 
+	//TODO was macht diese methode
 	public boolean addEdge(INode from, INode to, int cost) {
 		int i = getNodeIndex(from);
 		int j = getNodeIndex(to);
@@ -114,7 +101,6 @@ public class AdjacencyMatrix implements Graph {
 	}
 
 	public int getNodeIndex(INode node) {
-		
 		return nodeArray.indexOf(node);
 	}
 
@@ -175,6 +161,7 @@ public class AdjacencyMatrix implements Graph {
 		return false; // Knoten kann nicht erreicht werden
 	}
 
+	//TODO was macht diese methode
 	public int getNumberEdges(INode node) {
 		int numberEdges = 0;
 		for (int i = 0; i < size; i++) {
@@ -184,35 +171,4 @@ public class AdjacencyMatrix implements Graph {
 		}
 		return numberEdges;
 	}
-
-	public static void main(String[] args) {
-		int anzahlKnoten = 10;
-		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
-		matrix.initList();
-		matrix.createLinks();
-		for (int i = 0; i < anzahlKnoten; i++) {
-			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
-			System.out.println("\nNode: " + nodeFrom.getNodeId());
-
-			for (int j = 0; j < anzahlKnoten; j++) {
-				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
-				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
-					System.out.println(nodeTo.getNodeId());
-				}
-			}
-
-		}
-		System.out.println(
-				"Node0 ist Nachbar zu Node1: " + matrix.isNeighbors(matrix.getList().get(0), matrix.getList().get(1)));
-		System.out
-				.println("Kosten Node0 zu Node1: " + matrix.getCost(matrix.getList().get(0), matrix.getList().get(1)));
-		System.out.println("Ende");
-
-		if ((matrix.traverse(matrix.getList().get(0), matrix.getList().get(1))) == false) {
-			System.out.println("Die Bedingungen eines Graphen wurden nicht erfüllt");
-		}
-
-	}
-
-
 }
