@@ -1,12 +1,19 @@
 package graph;
 
+import java.util.List;
+
+import graph.link.IEdge;
 import graph.node.INode;
 
 public interface Graph {
 	
-	public void traverse();
+	public List<INode> getINodes();
 	
-	public boolean isConnected();
+	public List<IEdge> getIEdges();
+	
+	public boolean traverse(INode startNode, INode destinationNode);
+	
+	public boolean isConnected(INode n, INode m);
 	
 	public boolean isNeighbors(INode n, INode m);
 	

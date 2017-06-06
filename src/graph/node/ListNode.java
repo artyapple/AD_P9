@@ -1,29 +1,36 @@
 package graph.node;
 
-import graph.link.ILink;
-import graph.link.LinkNode;
+import graph.link.IEdge;
+import graph.link.Edge;
 
+import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListNode implements INode {
 	
 	private String name;
 	private int id;
-	private List<ILink> links;
+	private List<IEdge> edges;
+	private boolean isVisited;
 	
 	
-	public ListNode(String name) {
+	public ListNode(String name, int id) {
 		this.name = name;
+		this.id = id;
+		this.edges = new ArrayList<>();
+		this.isVisited=false;
 	}
 	
-	public ListNode(String name, String links) {
-		this.name = name;
-		//links = createLinks(); 
-	}
+//	public ListNode(String name, String links) {
+//		this.name = name;
+//		this.id = id; 
+//	}
 	
 	public void setLink(INode node, int cost){
-		ILink link = new LinkNode(node, cost, id);
-		links.add(link);
+		IEdge edge = new Edge(node, cost, id,this);
+		edges.add(edge);
 	}
 	
 
@@ -37,8 +44,32 @@ public class ListNode implements INode {
 		return id;		
 	}
 	
-	private List<ILink> createLinks(){
-		return null;
+	public List<IEdge> getEdges(){
+		return this.edges;
 	}
 
+	@Override
+	public boolean isNeighbors(INode otherNode) {
+		
+		List<IEdge> linkNodes = ((ListNode) otherNode).getEdges();
+		Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
+		while (iterLinkNodes.hasNext()){
+			if(iterLinkNodes.next().getLinkedNode().equals(this)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean getMark() {
+		return isVisited;
+	}
+		
+	public void mark() {
+		this.isVisited=true;
+	}
+
+	public void unmark() {
+		this.isVisited=false;
+	}
 }
