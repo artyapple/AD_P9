@@ -6,11 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
+import data.json.graph.LinkDataContainer;
+import data.json.graph.NodeDataContainer;
 import graph.Graph;
 import graph.link.IEdge;
 import graph.link.Edge;
 import graph.node.INode;
 import graph.node.ListNode;
+import graph.node.MatrixNode;
 
 public class AdjacencyList implements Graph {
 
@@ -22,19 +25,15 @@ public class AdjacencyList implements Graph {
 		this.nodes = new ArrayList<INode>();
 	}
 
-	//TODO init list or init with add
-	//was macht diese methode
-	public void add(ListNode node) {
-		nodes.add(node);
-	}
+	// TODO init list or init with add
+	// was macht diese methode
 
 	@Override
 	public List<INode> getINodes() {
 		return this.nodes;
 	}
 
-	
-	//TODO was macht diese methode
+	// TODO was macht diese methode
 	/**
 	 * Return alle Edges of the Graph
 	 */
@@ -153,9 +152,39 @@ public class AdjacencyList implements Graph {
 		return size;
 	}
 
-	//TODO was macht diese methode
+	// TODO was macht diese methode
 	public INode getNode(int index) {
 		return this.nodes.get(index);
+	}
+
+	@Override
+	public void initilize(List<NodeDataContainer> list) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void initList(List<NodeDataContainer> list) {
+		for (NodeDataContainer cont : list) {
+			add(new ListNode(cont.getNodeName(), cont.getNodeId()));
+		}
+	}
+
+	public void createEdges(List<NodeDataContainer> list) {
+
+		for (int i = 0; i < nodes.size(); i++) {
+
+			ListNode currentnode = (ListNode) nodes.get(i);
+			List<LinkDataContainer> links = list.get(i).getLinkedNode();
+			for (LinkDataContainer link : links) {
+				IEdge edge = new Edge(nodes.get(link.getLinkId()), link.getCost(), currentnode.getNodeId(),
+						currentnode);
+				currentnode.getEdges().add(edge);
+			}
+		}
+	}
+
+	private void add(ListNode node) {
+		nodes.add(node);
 	}
 
 }

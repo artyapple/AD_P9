@@ -2,6 +2,7 @@ package graph;
 
 import java.util.List;
 
+import data.json.graph.NodeDataContainer;
 import graph.link.IEdge;
 import graph.node.INode;
 
@@ -20,6 +21,8 @@ public interface Graph {
 	public int getCost(INode from, INode to); 
 	
 	public int getSize();
+	
+	public void initilize(List<NodeDataContainer> list);
 
 }
 

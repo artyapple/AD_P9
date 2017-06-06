@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
-
+import data.json.graph.LinkDataContainer;
+import data.json.graph.NodeDataContainer;
 import graph.Graph;
 import graph.link.Edge;
 import graph.link.IEdge;
@@ -35,79 +36,47 @@ public class AdjacencyMatrix implements Graph {
 			}
 		}
 	}
-	
+
 	@Override
 	public List<INode> getINodes() {
 		return this.nodeArray;
 	}
-	
-	//WAS macht diese methode
+
 	@Override
 	public List<IEdge> getIEdges() {
 		List<IEdge> listEdges = new ArrayList<IEdge>();
-		for(int i=0;i<nodeArray.size();i++){
-			for(int j=0;j<nodeArray.size();j++){
-				if(isConnected(nodeArray.get(i), nodeArray.get(j))){
+		for (int i = 0; i < nodeArray.size(); i++) {
+			for (int j = 0; j < nodeArray.size(); j++) {
+				if (isConnected(nodeArray.get(i), nodeArray.get(j))) {
 					Iterator<IEdge> iterListEdges = listEdges.iterator();
 					boolean edgeExists = false;
 					while (iterListEdges.hasNext()) {
 						IEdge edge = (IEdge) iterListEdges.next();
 
-						if (edge.getLinkedNode().getNodeId()==nodeArray.get(i).getNodeId()) {
+						if (edge.getLinkedNode().getNodeId() == nodeArray.get(i).getNodeId()) {
 							edgeExists = true;
 						}
 					}
 					if (edgeExists == false) {
 
-					Edge edge = new Edge(nodeArray.get(j), getCost(nodeArray.get(i), nodeArray.get(j)), nodeArray.get(i).getNodeId(), nodeArray.get(i));
-					listEdges.add(edge);
-				}}
+						Edge edge = new Edge(nodeArray.get(j), getCost(nodeArray.get(i), nodeArray.get(j)),
+								nodeArray.get(i).getNodeId(), nodeArray.get(i));
+						listEdges.add(edge);
+					}
+				}
 			}
 		}
 		return listEdges;
 	}
 
-	//TODO was macht diese methode
+	// TODO was macht diese methode
 	public List<INode> getList() {
 		return this.nodeArray;
 	}
 
-	//TODO was macht diese methode
-	public void add(INode node) {
-		nodeArray.add(node);
-	}
-
-	//TODO was macht diese methode
-	public boolean addEdge(INode from, INode to, int cost) {
-		int i = getNodeIndex(from);
-		int j = getNodeIndex(to);
-		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
-			costs[i][j] = cost;
-			costs[j][i] = cost;
-			return true;
-		}
-		return false;
-	}
-
-	public boolean removeEdge(INode from, INode to) {
-		int i = getNodeIndex(from);
-		int j = getNodeIndex(to);
-		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
-			costs[i][j] = NOTNEIGHBOURS;
-			costs[j][i] = NOTNEIGHBOURS;
-			return true;
-		}
-		return false;
-	}
-
-	public int getNodeIndex(INode node) {
-		return nodeArray.indexOf(node);
-	}
-
-
 	@Override
 	public boolean isConnected(INode n, INode m) {
-		if(costs[getNodeIndex(n)][getNodeIndex(m)] > 0){
+		if (costs[getNodeIndex(n)][getNodeIndex(m)] > 0) {
 			return true;
 		}
 		return false;
@@ -146,7 +115,7 @@ public class AdjacencyMatrix implements Graph {
 					return true; // testen, ob Ziel-Knoten gefunden
 				}
 				for (int i = 0; i < size; i++) {
-					if(isConnected(node, nodeArray.get(i))){
+					if (isConnected(node, nodeArray.get(i))) {
 						if (!((MatrixNode) nodeArray.get(i)).getMark()) {
 							queue.add((MatrixNode) nodeArray.get(i));
 							((MatrixNode) nodeArray.get(i)).mark();
@@ -161,7 +130,7 @@ public class AdjacencyMatrix implements Graph {
 		return false; // Knoten kann nicht erreicht werden
 	}
 
-	//TODO was macht diese methode
+	// TODO was macht diese methode
 	public int getNumberEdges(INode node) {
 		int numberEdges = 0;
 		for (int i = 0; i < size; i++) {
@@ -170,5 +139,60 @@ public class AdjacencyMatrix implements Graph {
 			}
 		}
 		return numberEdges;
+	}
+
+	@Override
+	public void initilize(List<NodeDataContainer> list) {
+		initList(list);
+		createLinks(list);
+
+	}
+
+	private void initList(List<NodeDataContainer> list) {
+		for (NodeDataContainer cont : list) {
+			add(new MatrixNode(cont.getNodeName(), cont.getNodeId()));
+		}
+	}
+
+	private void createLinks(List<NodeDataContainer> list) {
+		
+		for(int i = 0; i< nodeArray.size(); i++){
+			
+			INode currentnode = nodeArray.get(i);
+			List<LinkDataContainer> links =  list.get(i).getLinkedNode();
+			for(LinkDataContainer link : links){
+				addEdge(currentnode.getNodeId(), link.getLinkId(), link.getCost());
+			}
+		}
+	}
+
+	private boolean addEdge(int fromId, int toId, int cost) {
+		int i = fromId;
+		int j = toId;
+		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
+			costs[i][j] = cost;
+			costs[j][i] = cost;
+			return true;
+		}
+		return false;
+	}
+
+//	private boolean removeEdge(INode from, INode to) {
+//		int i = getNodeIndex(from);
+//		int j = getNodeIndex(to);
+//		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
+//			costs[i][j] = NOTNEIGHBOURS;
+//			costs[j][i] = NOTNEIGHBOURS;
+//			return true;
+//		}
+//		return false;
+//	}
+
+	private void add(INode node) {
+		nodeArray.add(node);
+	}
+	
+	private int getNodeIndex(INode node) {
+		return nodeArray.indexOf(node);
 	}
 }

@@ -161,6 +161,16 @@ public class DijkstraAlgorithm {
         }
         // Put it into the correct order
         Collections.reverse(path);
+        
+        if(path!=null){
+        	
+          for (INode node : path) {
+              System.out.println(node.getNodeId());
+          }
+  		} else {
+  			System.out.println("path null");
+  		}
+        
         return path;
 }
     

@@ -22,12 +22,12 @@ public class GraphDataGenerator {
 	private List<NodeDataContainer> nodes = new ArrayList<>();
 	private NodeDataListWrapper json = new NodeDataListWrapper();
 
-	public void createGraphAsJson(int cnt) {
+	public void createGraphAsJson(int cnt, String path) {
 		initNames();
 		createNodes(cnt);
 		buildLinks(cnt);
 		json.setNodesDataContainers(nodes);
-		jserv.writeJsonGraph(DataConstants.GRAPH_CONFIG, json);
+		jserv.writeJsonGraph(path, json);
 	}
 
 	private void createNodes(int cnt) {
@@ -113,7 +113,10 @@ public class GraphDataGenerator {
 	public static void main(String[] args) {
 
 		GraphDataGenerator g = new GraphDataGenerator();
-		g.createGraphAsJson(1000);
+		for(int size : DataConstants.PROBLEM_SIZE){
+			g.createGraphAsJson(size, DataConstants.GRAPH_CONFIG_BASE_PATH+size+DataConstants.JSON);
+		}
+		
 		System.out.println("ready");
 	}
 
