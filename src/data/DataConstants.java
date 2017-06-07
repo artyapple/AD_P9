@@ -9,5 +9,6 @@ public interface DataConstants {
 	public static final int MAX_EDGES_FACTOR = 2;
 	public static final int MAX_COST_VALUE = 100;
 	public static final int[] PROBLEM_SIZE = {5,10,100,1000,10000,100000};
+	public static final int[] MAX_EDGES_NUMBER = {3,5,5,5,5,3};
 
 }
