@@ -25,26 +25,24 @@ import graph.node.MatrixNode;
  *Klasse zum Anwenden des DijkstraAlgoithm auf Graphen.
  *
  */
-public class DijkstraAlgorithm {
-	private final List<INode> nodes;
-    private final List<IEdge> edges;
+public class DijkstraAlgorithm implements IDijkstraAlgorithm {
+	 
+    private final Graph graph;
     private Set<INode> settledNodes;
     private Set<INode> unSettledNodes;
     private Map<INode, INode> predecessors;
     private Map<INode, Integer> distance;
 
     public DijkstraAlgorithm(Graph graph) {
-        // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<INode>((List<INode>)graph.getINodes());       	
-        this.edges = new ArrayList<IEdge>(graph.getIEdges());//Liste aller Verbindungen
-      
-       
+    	this.graph=graph; 
+        // create a copy of the array so that we can operate on this array   
     }
 /**
  * Methode zur Ausführung des Algoithmus
  * 
  * @param source StartNode
  */
+    @Override
     public void execute(INode source) {
     	//initialisieren der Listen
         settledNodes = new HashSet<INode>();
@@ -66,8 +64,8 @@ public class DijkstraAlgorithm {
             findMinimalDistances(node);
         }
     }
-
-    private void findMinimalDistances(INode node) {
+    @Override
+    public void findMinimalDistances(INode node) {
         List<INode> adjacentNodes = getNeighbors(node);
         for (INode target : adjacentNodes) {
             if (getShortestDistance(target) > getShortestDistance(node)
@@ -80,10 +78,10 @@ public class DijkstraAlgorithm {
         }
 
     }
-
-    private int getDistance(INode node, INode target) {
+    @Override
+    public int getDistance(INode node, INode target) {
     	if(node instanceof ListNode){
-    		for (IEdge edge : edges) {
+    		for (IEdge edge : graph.getIEdges()) {
                 if (edge.getOwnerNode().equals( node)
                         && edge.getLinkedNode().equals(target)) {
                     return edge.getCost();
@@ -92,7 +90,7 @@ public class DijkstraAlgorithm {
             throw new RuntimeException("Should not happen");
     	}
     	if(node instanceof MatrixNode){
-    		Iterator<IEdge> iter = edges.iterator(); 
+    		Iterator<IEdge> iter = graph.getIEdges().iterator(); 
     		while (iter.hasNext()) {
 				IEdge edge = (IEdge) iter.next();
 				if(edge.getOwnerNode().equals(node)&&edge.getLinkedNode().equals(target)){
@@ -101,11 +99,11 @@ public class DijkstraAlgorithm {
     		}}
     	return 0;
     	}
-
-    private List<INode> getNeighbors(INode node) {
+    @Override
+    public List<INode> getNeighbors(INode node) {
     	
     		 List<INode> neighbors = new ArrayList<INode>();
-    	        for (IEdge edge : edges) {
+    	        for (IEdge edge : graph.getIEdges()) {
     	            if (edge.getOwnerNode().equals(node)
     	                    && !isSettled((INode) edge.getLinkedNode())) {
     	                neighbors.add((INode) edge.getLinkedNode());
@@ -115,8 +113,8 @@ public class DijkstraAlgorithm {
 		}
        
     
-
-    private INode getMinimum(Set<INode> iNodes) {
+    @Override
+    public INode getMinimum(Set<INode> iNodes) {
         INode minimum = null;
         for (INode node : iNodes) {
             if (minimum == null) {
@@ -129,12 +127,12 @@ public class DijkstraAlgorithm {
         }
         return minimum;
     }
-
-    private boolean isSettled(INode node) {
+    @Override
+    public boolean isSettled(INode node) {
         return settledNodes.contains(node);
     }
-
-    private int getShortestDistance(INode destination) {
+    @Override
+    public int getShortestDistance(INode destination) {
         Integer d = distance.get(destination);
         if (d == null) {
             return Integer.MAX_VALUE;
@@ -147,8 +145,8 @@ public class DijkstraAlgorithm {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists
      */
+    @Override
     public LinkedList<INode> getPath(INode target) {
-    	   System.out.println("get path methode");
     	
     	LinkedList<INode> path = new LinkedList<INode>();
         INode step = target;

@@ -27,8 +27,7 @@ public class AdjacencyList implements Graph {
 		this.edges = new ArrayList<IEdge>();
 	}
 
-	// TODO init list or init with add
-	// was macht diese methode
+
 
 	@Override
 	public List<INode> getINodes() {
@@ -37,7 +36,6 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public List<IEdge> getIEdges() {
-		
 		return edges;
 	}
 	
