@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import data.json.graph.LinkDataContainer;
 import graph.Graph;
 import graph.link.IEdge;
 import graph.link.Edge;
@@ -61,6 +62,7 @@ public class DijkstraAlgorithm implements IDijkstraAlgorithm {
             //Aus der unSettledNodes Liste entfernen
             unSettledNodes.remove(node);
             //nächsten Node mit nächstkleineren Kosten bearbeiten
+            System.out.println(node.getNodeId());
             findMinimalDistances(node);
         }
     }
@@ -80,37 +82,40 @@ public class DijkstraAlgorithm implements IDijkstraAlgorithm {
     }
     @Override
     public int getDistance(INode node, INode target) {
-    	if(node instanceof ListNode){
-    		for (IEdge edge : graph.getIEdges()) {
-                if (edge.getOwnerNode().equals( node)
-                        && edge.getLinkedNode().equals(target)) {
-                    return edge.getCost();
-                }
-            }
+   
+    		if(graph.isNeighbors(node, target)){
+    			return graph.getCost(node, target);
+    		}
+//    		for (IEdge edge : graph.getIEdges()) {
+//                if ((edge.getOwnerNode().equals( node)
+//                        && edge.getLinkedNode().equals(target))||(edge.getOwnerNode().equals( target)
+//                                && edge.getLinkedNode().equals(node))) {
+//                    return edge.getCost();
+//                }
+//            }
             throw new RuntimeException("Should not happen");
-    	}
-    	if(node instanceof MatrixNode){
-    		Iterator<IEdge> iter = graph.getIEdges().iterator(); 
-    		while (iter.hasNext()) {
-				IEdge edge = (IEdge) iter.next();
-				if(edge.getOwnerNode().equals(node)&&edge.getLinkedNode().equals(target)){
-					return edge.getCost();
-				} 	
-    		}}
-    	return 0;
-    	}
+   }
     @Override
     public List<INode> getNeighbors(INode node) {
-    	
-    		 List<INode> neighbors = new ArrayList<INode>();
-    	        for (IEdge edge : graph.getIEdges()) {
-    	            if (edge.getOwnerNode().equals(node)
-    	                    && !isSettled((INode) edge.getLinkedNode())) {
-    	                neighbors.add((INode) edge.getLinkedNode());
-    	            }
+    	if(node instanceof ListNode){
+    		 	List<INode> neighbors = new ArrayList<INode>();
+    	        for (IEdge edge :((ListNode) node).getEdges()) {
+    	        neighbors.add(edge.getLinkedNode());	
     	        }
-    	        return neighbors;
+   	        return neighbors;
 		}
+    	if(node instanceof MatrixNode){
+    		List<INode> neighbors = new ArrayList<INode>();
+    		for (int i=0;i<graph.getINodes().size();i++){
+    			INode neighbor = graph.getINodes().get(i);
+    			if(graph.isNeighbors(node, neighbor)){
+    				neighbors.add(neighbor);
+    			}
+    		}
+    		return neighbors;
+    	}
+    	return null;
+    }
        
     
     @Override
@@ -174,49 +179,7 @@ public class DijkstraAlgorithm implements IDijkstraAlgorithm {
     
     
     
-    //TODO was macht diese methode ?!?!?!
-//    public static void main(String[] args) {
-//		int anzahlKnoten = 10;
-//		AdjacencyMatrix matrix = new AdjacencyMatrix(anzahlKnoten);
-//		matrix.initList();
-//		matrix.createLinks();
-//		for (int i = 0; i < anzahlKnoten; i++) {
-//			MatrixNode nodeFrom = (MatrixNode) matrix.getList().get(i);
-//			//System.out.println("\nNode: " + nodeFrom.getNodeId());
-//
-//			for (int j = 0; j < anzahlKnoten; j++) {
-//				MatrixNode nodeTo = (MatrixNode) matrix.getList().get(j);
-//				if (!nodeFrom.equals(nodeTo) && matrix.isConnected(nodeFrom, nodeTo)) {
-//					//System.out.println(nodeTo.getNodeId());
-//				}
-//			}
-//
-//		}
-//		AdjacencyList list = new AdjacencyList(anzahlKnoten);
-//		list.initList();
-//		list.createEdges();
-//		for (int i = 0; i < anzahlKnoten; i++) {
-//			ListNode listNode = (ListNode) list.getNode(i);
-//			//System.out.println("\nNode: " + (list.getNode(i)).getNodeId());
-//			List<IEdge> linkNodes = listNode.getEdges();
-//			for (int j = 0; j < linkNodes.size(); j++) {
-//				//System.out.println(linkNodes.get(j).getLinkedNode().getNodeId());
-//			}
-//
-//		}
-//		DijkstraAlgorithm algo= new DijkstraAlgorithm(list);
-//		algo.execute(list.getINodes().get(0));
-//		LinkedList<INode> path = algo.getPath(list.getINodes().get(9));
-//
-//        //assertNotNull(path);
-//        //assertTrue(path.size() > 0);
-//		if(path!=null){
-//        for (INode node : path) {
-//            System.out.println(node.getNodeId());
-//        }
-//		}
-//        System.out.println("Ende");
-//    }
+
 }
 		
 

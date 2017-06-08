@@ -50,5 +50,24 @@ public class Edge implements IEdge {
 	public void setOwnerId(int ownerId){
 		this.ownerId=ownerId;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * (result + ((ownerNode == null) ? 0 : ownerNode.hashCode()) + ((linkedNode == null) ? 0 : linkedNode.hashCode()));
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		
+		return (this.ownerNode.equals(other.ownerNode) && linkedNode.equals(other.linkedNode)) || (ownerNode.equals(other.linkedNode) && linkedNode.equals(other.ownerNode));
+	}
 
 }

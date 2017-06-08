@@ -2,9 +2,11 @@ package graph.list;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 import data.json.graph.LinkDataContainer;
 import data.json.graph.NodeDataContainer;
@@ -15,16 +17,17 @@ import graph.node.INode;
 import graph.node.ListNode;
 import graph.node.MatrixNode;
 
+
 public class AdjacencyList implements Graph {
 
 	private List<INode> nodes;
-	private List<IEdge> edges;
+	//private List<IEdge> edges;
 	private int size;
 
 	public AdjacencyList(int numberNodes) {
 		this.size = numberNodes;
 		this.nodes = new ArrayList<INode>();
-		this.edges = new ArrayList<IEdge>();
+		//this.edges = new ArrayList<IEdge>();
 	}
 
 
@@ -36,6 +39,28 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public List<IEdge> getIEdges() {
+		//Das ist etwas schneller aber immernoch sehr langsam
+		Set<IEdge> vglSet = new HashSet<>();
+		List<IEdge> edges = new ArrayList<IEdge>();
+		for (int i = 0; i < nodes.size(); i++) {
+			ListNode currentNode = (ListNode) nodes.get(i);
+			vglSet.addAll(currentNode.getEdges());
+//---------------------------------------------------------Sehr langsam----------------------------------------
+//			for (int j = 0; j < nodes.size(); j++) {
+//				ListNode linkedNode = (ListNode) nodes.get(j);
+//				if (isNeighbors(currentNode, linkedNode)) {
+//						IEdge edge = new Edge(linkedNode, getCost(linkedNode, currentNode), currentNode.getNodeId(),
+//								currentNode);
+//						if (!edges.contains(new Edge(currentNode, getCost(currentNode, linkedNode),
+//								linkedNode.getNodeId(), linkedNode))) {
+//							edges.add(edge);
+//					}
+//					
+//				}
+//			}
+//--------------------------------------------------------------------------------------------------------------
+		}
+		edges.addAll(vglSet);
 		return edges;
 	}
 	
@@ -114,11 +139,6 @@ public class AdjacencyList implements Graph {
 
 	}
 
-	@Override
-	public boolean isConnected(INode n, INode m) {
-		return false;
-
-	}
 
 	@Override
 	public boolean isNeighbors(INode n, INode m) {
@@ -157,10 +177,6 @@ public class AdjacencyList implements Graph {
 		return size;
 	}
 
-	// TODO was macht diese methode
-	public INode getNode(int index) {
-		return this.nodes.get(index);
-	}
 
 	@Override
 	public void initilize(List<NodeDataContainer> list) {
@@ -187,9 +203,7 @@ public class AdjacencyList implements Graph {
 				
 				currentnode.getEdges().add(edge);
 				
-				if(!edges.contains(new Edge(currentnode, link.getCost(), link.getLinkId(), nodes.get(link.getLinkId())))){
-					edges.add(edge);
-				}
+				
 			}
 		}
 	}

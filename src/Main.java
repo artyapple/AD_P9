@@ -12,21 +12,21 @@ public class Main {
 		JSONGraphReader reader = new JSONGraphReader();
 		
 		//######## TEST DATA INPUT ############
-		int size = 1000;
-		int from = 101;
+		int size = 10000;
+		int from = 1;
 		int to = 999;
 		//#####################################
 		
-		Graph gr = new AdjacencyList(size);
-		gr = reader.getGraph(gr, size, DataConstants.GRAPH_CONFIG_BASE_PATH);
-		INode toNode = gr.getINodes().get(to);
-		INode fromNode = gr.getINodes().get(from);
-		System.out.println("AdjacencyList:\nFind path from: "+fromNode.getName()+"(id="+fromNode.getNodeId()+")"+" to "+toNode.getName()+"(id="+toNode.getNodeId()+") :");
-		
-		DijkstraAlgorithm algoList = new DijkstraAlgorithm(gr);
-		algoList.execute(toNode);
-		algoList.getPath(fromNode);
-		
+//		Graph gr = new AdjacencyList(size);
+//		gr = reader.getGraph(gr, size, DataConstants.GRAPH_CONFIG_BASE_PATH);
+//		INode toNode = gr.getINodes().get(to);
+//		INode fromNode = gr.getINodes().get(from);
+//		System.out.println("AdjacencyList:\nFind path from: "+fromNode.getName()+"(id="+fromNode.getNodeId()+")"+" to "+toNode.getName()+"(id="+toNode.getNodeId()+") :");
+//		
+//		DijkstraAlgorithm algoList = new DijkstraAlgorithm(gr);
+//		algoList.execute(toNode);
+//		algoList.getPath(fromNode);
+	
 		Graph matrix = new AdjacencyMatrix(size);
 		matrix= reader.getGraph(matrix,size,DataConstants.GRAPH_CONFIG_BASE_PATH);
 		INode toNodeM = matrix.getINodes().get(to);
