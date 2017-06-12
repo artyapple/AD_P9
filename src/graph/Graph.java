@@ -8,18 +8,47 @@ import graph.node.INode;
 
 public interface Graph {
 	
-	public List<INode> getINodes();
+	/**
+	 * 
+	 * @return
+	 */
+	public INode getNode(int id);
 	
-	public List<IEdge> getIEdges();
+	public INode getNode(String name);
 	
+	public int size();
+	
+	
+	public List<INode> getNeighbors(INode node);
+	
+	/**
+	 * 
+	 * @param startNode
+	 * @param destinationNode
+	 * @return
+	 */
 	public boolean traverse(INode startNode, INode destinationNode);
 	
+	/**
+	 * 
+	 * @param n
+	 * @param m
+	 * @return
+	 */
 	public boolean isNeighbors(INode n, INode m);
 	
+	/**
+	 * 
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public int getCost(INode from, INode to); 
 	
-	public int getSize();
-	
+	/**
+	 * 
+	 * @param list
+	 */
 	public void initilize(List<NodeDataContainer> list);
 
 }

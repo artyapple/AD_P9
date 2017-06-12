@@ -8,19 +8,14 @@ import graph.node.INode;
 
 public interface IDijkstraAlgorithm {
 
-	  public void execute(INode source);
-	  
-	  public void findMinimalDistances(INode node);
-	  
-	  public int getDistance(INode node, INode target);
-	  
-	  public List<INode> getNeighbors(INode node);
-	  
-	  public INode getMinimum(Set<INode> iNodes);
-	  
-	  public LinkedList<INode> getPath(INode target);
-	  
-	  public int getShortestDistance(INode destination);
-	  
-	  public boolean isSettled(INode node);
+	public void execute(INode source);
+
+	/**
+	 * This method returns the path from the source to the selected target
+	 * and NULL if no path exists
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public LinkedList<INode> getPath(INode target);
 }
