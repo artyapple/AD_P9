@@ -26,7 +26,6 @@ public class DijkstraAlgorithmTest {
 	private int to = 99;
 	// #####################################
 
-
 	@Test
 	public void testDijkastraWithMatrix() {
 		graph = new AdjacencyMatrix(size);

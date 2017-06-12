@@ -14,7 +14,6 @@ import graph.link.IEdge;
 import graph.node.INode;
 import graph.node.ListNode;
 
-
 public class AdjacencyList implements Graph {
 
 	private List<INode> nodes;
@@ -25,26 +24,26 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public INode getNode(int id) {
-		for(INode node : nodes){
-			if(node.getNodeId()==id){
+		for (INode node : nodes) {
+			if (node.getNodeId() == id) {
 				return node;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public INode getNode(String name) {
-		for(INode node : nodes){
-			if(node.getName().equals(name)){
+		for (INode node : nodes) {
+			if (node.getName().equals(name)) {
 				return node;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
-	public List<INode> getNeighbors(INode node){
+	public List<INode> getNeighbors(INode node) {
 		List<INode> neighbors = new ArrayList<INode>();
 		for (IEdge edge : ((ListNode) node).getEdges()) {
 			neighbors.add(edge.getLinkedNode());
@@ -85,12 +84,12 @@ public class AdjacencyList implements Graph {
 		return false; // Knoten kann nicht erreicht werden
 
 	}
-	
+
 	@Override
-	public int size(){
+	public int size() {
 		return nodes.size();
 	}
-	
+
 	@Override
 	public boolean isNeighbors(INode n, INode m) {
 		ListNode listNode = (ListNode) n;
@@ -107,18 +106,18 @@ public class AdjacencyList implements Graph {
 
 	@Override
 	public int getCost(INode from, INode to) {
-		if (isNeighbors(from, to)) {
-			ListNode fromList = (ListNode) from;
-			List<IEdge> linkNodes = fromList.getEdges();
-			Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
-			while (iterLinkNodes.hasNext()) {
-				Edge edge = (Edge) iterLinkNodes.next();
-				INode node = edge.getLinkedNode();
-				if (node.equals(to)) {
-					return edge.getCost();
-				}
+
+		ListNode fromList = (ListNode) from;
+		List<IEdge> linkNodes = fromList.getEdges();
+		Iterator<IEdge> iterLinkNodes = linkNodes.iterator();
+		while (iterLinkNodes.hasNext()) {
+			Edge edge = (Edge) iterLinkNodes.next();
+			INode node = edge.getLinkedNode();
+			if (node.equals(to)) {
+				return edge.getCost();
 			}
 		}
+
 		return 0;
 	}
 

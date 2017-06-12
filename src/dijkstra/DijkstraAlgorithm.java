@@ -87,7 +87,9 @@ public class DijkstraAlgorithm implements IDijkstraAlgorithm {
 
 	public void findMinimalDistances(INode node) {
 		List<INode> adjacentNodes = graph.getNeighbors(node);
+		System.out.println("aufruf id" + node.getNodeId());
 		for (INode target : adjacentNodes) {
+			System.out.println("nachbarn: " + target.getNodeId());
 			if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
 				distance.put(target, getShortestDistance(node) + getDistance(node, target));
 				predecessors.put(target, node);// VorgängerNodes

@@ -15,13 +15,13 @@ public class EffortAnalysis {
 
 		// ######## TEST DATA INPUT ############
 		int size = 10;
-		int from = 1;
-		int to = 9;
+		int from = 4;
+		int to = 8;
 		// #####################################
 
-		//Graph gr = new AdjacencyMatrix(size);
-		Graph gr = new AdjacencyList();
+		Graph gr = new AdjacencyMatrix(size);
 		
+		//Graph gr = new AdjacencyList();
 		gr = reader.getGraph(gr, size, DataConstants.GRAPH_CONFIG_BASE_PATH);
 		INode toNodeM = gr.getNode(to);
 		INode fromNodeM = gr.getNode(from);

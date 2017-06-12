@@ -37,7 +37,7 @@ public class AdjacencyMatrix implements Graph {
 		List<INode> neighbors = new ArrayList<INode>();
 		for (int i = 0; i < nodes.size(); i++) {
 			INode neighbor = nodes.get(i);
-			if (isNeighbors(node, neighbor)) {
+			if (this.isNeighbors(node, neighbor)) {
 				neighbors.add(neighbor);
 			}
 		}
@@ -71,14 +71,11 @@ public class AdjacencyMatrix implements Graph {
 
 	@Override
 	public int getCost(INode from, INode to) {
-		if (isNeighbors(from, to)) {
-			return costs[nodes.indexOf(from)][nodes.indexOf(to)];
-		}
-		return;
+		return costs[nodes.indexOf(from)][nodes.indexOf(to)];
 	}
-	
+
 	@Override
-	public int size(){
+	public int size() {
 		return nodes.size();
 	}
 
@@ -153,7 +150,4 @@ public class AdjacencyMatrix implements Graph {
 	private void add(INode node) {
 		nodes.add(node);
 	}
-	
-	
-
 }

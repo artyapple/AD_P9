@@ -35,6 +35,8 @@ public class CounterAdapter implements Graph {
 		increaseCounter();
 		if(graph instanceof AdjacencyMatrix){
 			increaseBy(graph.size());
+		} else if(graph instanceof AdjacencyList){
+			increaseBy(((ListNode)node).getEdges().size());
 		}
 		return graph.getNeighbors(node);
 	}
