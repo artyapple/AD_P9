@@ -1,9 +1,6 @@
 package graph.node;
 
 
-import java.util.UUID;
-
-
 public class MatrixNode implements INode {
 	
 	public MatrixNode(String name, int id) {
@@ -27,11 +24,6 @@ public class MatrixNode implements INode {
 		return this.id;
 	}
 
-	//TODO methode loschen?
-	@Override
-	public boolean isNeighbors(INode otherNode) {
-		return false;
-	}
 	public boolean getMark() {
 		return isVisited;
 	}

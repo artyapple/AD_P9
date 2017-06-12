@@ -2,8 +2,12 @@ package data.json.names;
 
 import java.util.List;
 
-import data.json.graph.NodeDataContainer;
-
+/**
+ * JSON wrapper for cities
+ * 
+ * @author AI
+ *
+ */
 public class CitiesList {
 	
 	private List<CitiData> citieslist;

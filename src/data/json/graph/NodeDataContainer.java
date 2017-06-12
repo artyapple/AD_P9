@@ -3,6 +3,12 @@ package data.json.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JSON wrapper for node
+ * 
+ * @author AI
+ *
+ */
 public class NodeDataContainer {
 
 	private String nodeName;

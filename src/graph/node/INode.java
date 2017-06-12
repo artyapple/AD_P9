@@ -1,16 +1,19 @@
 package graph.node;
 
-
-import java.util.UUID;
-
-
-
 public interface INode {
 	
+	/**
+	 * gets node name
+	 * 
+	 * @return
+	 */
 	public String getName();
 	
+	/**
+	 * gets node id
+	 * 
+	 * @return
+	 */
 	public int getNodeId();
-	
-	public boolean isNeighbors(INode otherNode);
 	
 }

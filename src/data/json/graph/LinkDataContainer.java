@@ -1,5 +1,10 @@
 package data.json.graph;
 
+/**
+ * JSON wrapper for edge
+ * @author AI
+ *
+ */
 public class LinkDataContainer {
 	
 	private int linkId;

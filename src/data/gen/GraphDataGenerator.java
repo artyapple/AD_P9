@@ -12,6 +12,12 @@ import data.json.graph.NodeDataListWrapper;
 import data.json.names.CitiData;
 import data.json.service.JSONService;
 
+/**
+ * Creates a pseudo-random graph and writes its configuration to json
+ * 
+ * @author AI
+ *
+ */
 public class GraphDataGenerator {
 
 	private JSONService jserv = new JSONService();
@@ -26,6 +32,13 @@ public class GraphDataGenerator {
 		sizeNamesList = cd.size();
 	}
 
+	/**
+	 * creates json graph  
+	 * 
+	 * @param cnt
+	 * @param maxEdges
+	 * @param path
+	 */
 	public void createGraphAsJson(int cnt, int maxEdges, String path) {
 		nodes = new ArrayList<>();
 		json = new NodeDataListWrapper();
@@ -57,7 +70,7 @@ public class GraphDataGenerator {
 		int currentId, linkId, cost;
 		LinkDataContainer link, refl;
 
-		//int linksCount = getLinksCount(cnt);
+		// int linksCount = getLinksCount(cnt);
 
 		for (NodeDataContainer cont : nodes) {
 			while (cont.getLinkedNode().size() <= linksCount) {
@@ -172,10 +185,10 @@ public class GraphDataGenerator {
 	public static void main(String[] args) {
 
 		GraphDataGenerator g = new GraphDataGenerator();
-		for (int i = 0; i< DataConstants.PROBLEM_SIZE.length; i++) {
+		for (int i = 0; i < DataConstants.PROBLEM_SIZE.length; i++) {
 			int size = DataConstants.PROBLEM_SIZE[i];
 			int maxEdges = DataConstants.MAX_EDGES_NUMBER[i];
-			g.createGraphAsJson(size, maxEdges ,DataConstants.GRAPH_CONFIG_BASE_PATH + size + DataConstants.JSON);
+			g.createGraphAsJson(size, maxEdges, DataConstants.GRAPH_CONFIG_BASE_PATH + size + DataConstants.JSON);
 		}
 
 		System.out.println("ready");

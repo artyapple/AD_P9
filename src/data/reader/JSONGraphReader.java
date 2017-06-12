@@ -12,11 +12,14 @@ public class JSONGraphReader {
 	private JSONService jserv = new JSONService();
 	private NodeDataListWrapper json;
 	
-//	private void read(String path, Graph graph){
-//		json = jserv.readJsonGraph(path);
-//		//TODO
-//	}
-	
+	/**
+	 * creates graph from json config
+	 * 
+	 * @param graph
+	 * @param size
+	 * @param basepath
+	 * @return
+	 */
 	public Graph getGraph(Graph graph, int size, String basepath){
 		json = jserv.readJsonGraph(basepath+size+DataConstants.JSON);;
 		graph.initilize(json.getNodesDataContainers());

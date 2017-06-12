@@ -1,5 +1,11 @@
 package data.json.names;
 
+/**
+ * JSON wrapper for city data
+ * 
+ * @author AI
+ *
+ */
 public class CitiData {
 
 	private String country;

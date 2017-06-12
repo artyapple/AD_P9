@@ -1,13 +1,15 @@
 package dijkstra;
 
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 import graph.node.INode;
 
 public interface IDijkstraAlgorithm {
 
+	/**
+	 * starts dijkstra algorithm
+	 * @param source
+	 */
 	public void execute(INode source);
 
 	/**

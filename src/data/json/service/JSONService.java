@@ -10,6 +10,12 @@ import data.json.graph.NodeDataListWrapper;
 import data.json.names.CitiData;
 import data.json.names.CitiesList;
 
+/**
+ * JSON Service for serialization and deserialization
+ * 
+ * @author AI
+ *
+ */
 public class JSONService {
 	
 	private ObjectMapper mapper;

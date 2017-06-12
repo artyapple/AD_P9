@@ -2,7 +2,9 @@ package data;
 
 public interface DataConstants {
 	
-	//DATA GEN
+	/**
+	 * Data constants
+	 */
 	public static final String GRAPH_CONFIG_BASE_PATH = "C:\\Users\\AI\\workspace\\AD_P9\\graph_";
 	public static final String JSON = ".json";
 	public static final String NAMES_LIST = "C:\\Users\\AI\\workspace\\AD_P9\\cities.json";

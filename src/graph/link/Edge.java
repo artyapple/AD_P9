@@ -1,7 +1,7 @@
 package graph.link;
 
 import graph.node.INode;
-import java.util.UUID;
+
 /**
  * 
  * @author daexel
@@ -50,6 +50,7 @@ public class Edge implements IEdge {
 	public void setOwnerId(int ownerId){
 		this.ownerId=ownerId;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,6 +58,7 @@ public class Edge implements IEdge {
 		result = prime * (result + ((ownerNode == null) ? 0 : ownerNode.hashCode()) + ((linkedNode == null) ? 0 : linkedNode.hashCode()));
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
