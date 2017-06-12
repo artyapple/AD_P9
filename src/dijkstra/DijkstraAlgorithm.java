@@ -76,12 +76,12 @@ public class DijkstraAlgorithm implements IDijkstraAlgorithm {
 		}
 		// Put it into the correct order
 		Collections.reverse(path);
-		if (path != null) {
-
-			for (INode node : path) {
-				System.out.println(node.getNodeId());
-			}
-		}
+//		if (path != null) {
+//
+//			for (INode node : path) {
+//				System.out.println(node.getNodeId());
+//			}
+//		}
 		return path;
 	}
 

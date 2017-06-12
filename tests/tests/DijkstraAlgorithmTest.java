@@ -18,12 +18,11 @@ public class DijkstraAlgorithmTest {
 
 	private JSONGraphReader reader = new JSONGraphReader();
 	private Graph graph;
-	//test data
-	private int[] ids = {46, 43};
 	// ######## TEST DATA INPUT ############
-	private int size = 100;
-	private int from = 1;
-	private int to = 99;
+	private final int[] ids = {28, 10};
+	private final int size = 100;
+	private final int from = 1;
+	private final int to = 99;
 	// #####################################
 
 	@Test
@@ -39,7 +38,7 @@ public class DijkstraAlgorithmTest {
 	}
 	
 	private void testDijkstra(){
-		graph = reader.getGraph(graph, size, DataConstants.GRAPH_CONFIG_BASE_PATH);
+		graph = reader.getGraph(graph, size, DataConstants.GRAPH_CONFIG_UNITTEST);
 		INode toNodeM = graph.getNode(to);
 		INode fromNodeM = graph.getNode(from);
 		DijkstraAlgorithm algoMatrix = new DijkstraAlgorithm(graph);

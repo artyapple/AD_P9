@@ -11,7 +11,7 @@ import graph.node.ListNode;
 
 public class CounterAdapter implements Graph {
 
-	private int counter;
+	private double counter;
 	private Graph graph;
 	
 	public CounterAdapter(Graph graph) {
@@ -75,7 +75,7 @@ public class CounterAdapter implements Graph {
 		counter= counter +x;
 	}
 	
-	public int getCounter(){
+	public double getCounter(){
 		return counter;
 	}
 
