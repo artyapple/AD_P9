@@ -59,8 +59,7 @@ public class CounterAdapter implements Graph {
 		if(graph instanceof AdjacencyList){
 			increaseBy(((ListNode) from).getEdges().size());
 		}
-		graph.getCost(from, to);
-		return 0;
+		return graph.getCost(from, to);
 	}
 
 	@Override
