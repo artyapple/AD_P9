@@ -28,23 +28,22 @@ public class EffortAnalysis {
 
 	public void execute() {
 		System.out.println("===== Start analysis =====");
-		from = from * 100;
-		to = to * 1000;
+
+		for (int i = 1; i < DataConstants.PROBLEM_SIZE.length - 1; i++) {
+			// execute matrix
+			executeAdjMatrix(DataConstants.PROBLEM_SIZE[i]);
+			// execute list
+			executeAdjList(DataConstants.PROBLEM_SIZE[i]);
+			// change ids
+			from = from * 10;
+			to = to * 10;
+		}
+
 		// execute matrix
-		executeAdjMatrix(DataConstants.PROBLEM_SIZE[DataConstants.PROBLEM_SIZE.length - 1]);
+		//executeAdjMatrix(DataConstants.PROBLEM_SIZE[DataConstants.PROBLEM_SIZE.length - 1]);
 		// execute list
 		executeAdjList(DataConstants.PROBLEM_SIZE[DataConstants.PROBLEM_SIZE.length - 1]);
 		// change ids
-
-		// for (int i = 1; i < DataConstants.PROBLEM_SIZE.length-1; i++) {
-		// // execute matrix
-		// executeAdjMatrix(DataConstants.PROBLEM_SIZE[i]);
-		// // execute list
-		// executeAdjList(DataConstants.PROBLEM_SIZE[i]);
-		// // change ids
-		// from = from * 10;
-		// to = to * 10;
-		// }
 	}
 
 	private void executeAdjMatrix(int size) {

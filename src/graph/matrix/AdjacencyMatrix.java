@@ -15,7 +15,7 @@ public class AdjacencyMatrix implements Graph {
 
 	private static final int NOTNEIGHBOURS = -1;
 	private List<INode> nodes;
-	private int[][] costs;
+	private byte[][] costs;
 
 	/**
 	 * @param nodes
@@ -24,7 +24,7 @@ public class AdjacencyMatrix implements Graph {
 	 */
 	public AdjacencyMatrix(int size) {
 		this.nodes = new ArrayList<INode>();
-		this.costs = new int[size][size];
+		this.costs = new byte[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				costs[i][j] = NOTNEIGHBOURS;
@@ -131,12 +131,12 @@ public class AdjacencyMatrix implements Graph {
 			INode currentnode = nodes.get(i);
 			List<LinkDataContainer> links = list.get(i).getLinkedNode();
 			for (LinkDataContainer link : links) {
-				addEdge(currentnode.getNodeId(), link.getLinkId(), link.getCost());
+				addEdge(currentnode.getNodeId(), link.getLinkId(), (byte)link.getCost());
 			}
 		}
 	}
 
-	private boolean addEdge(int fromId, int toId, int cost) {
+	private boolean addEdge(int fromId, int toId, byte cost) {
 		int i = fromId;
 		int j = toId;
 		if (i != NOTNEIGHBOURS && j != NOTNEIGHBOURS) {
